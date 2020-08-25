@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.anara.salon">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
+
+        <activity android:name="com.anara.salon.Activities.BookingsActivity"
+            android:theme="@style/NoActionBar">
+
+        </activity>
+        <activity android:name="com.anara.salon.Activities.ProfileActivity"
+            android:theme="@style/NoActionBar"/>
+        <activity
+            android:name="com.anara.salon.Activities.FilterActivity"
+            android:theme="@style/NoActionBar" />
+        <activity
+            android:name="com.anara.salon.Activities.SelectTimeBarber"
+            android:theme="@style/NoActionBar" />
+        <activity
+            android:name="com.anara.salon.Activities.SingleSalonActivity"
+            android:theme="@style/NoActionBar" />
+        <activity
+            android:name="com.anara.salon.Activities.ListSalonActivity"
+            android:theme="@style/NoActionBar" />
+        <activity
+            android:name="com.anara.salon.Activities.IntroActivity"
+            android:theme="@style/NoActionBar">
+
+        </activity>
+        <activity
+            android:name="com.anara.salon.Activities.OTPActivity"
+            android:theme="@style/NoActionBar" />
+        <activity
+            android:name="com.anara.salon.Activities.MobileNumberActivity"
+            android:theme="@style/NoActionBar"
+            android:windowSoftInputMode="adjustResize">
+
+        </activity>
+        <activity
+            android:name="com.anara.salon.MainActivity"
+            android:theme="@style/NoActionBar" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>

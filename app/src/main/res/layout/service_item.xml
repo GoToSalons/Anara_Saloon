@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="8dp"
+    android:layout_marginEnd="8dp">
+
+    <ImageView
+        android:id="@+id/service_icon"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:src="@drawable/scissors"
+        android:padding="10dp"
+        android:background="@drawable/circle_medium_grey"/>
+
+    <TextView
+        android:id="@+id/service_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/service_icon"
+        android:text="Hair Cut"
+        android:layout_centerInParent="true"
+        android:textColor="@color/colorBlack"
+        android:textSize="12sp"
+        />
+
+    <TextView
+        android:id="@+id/service_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/service_name"
+        android:text="₹ 100"
+        android:layout_centerInParent="true"
+        android:textColor="@color/colorBlack"
+        android:textSize="12sp"
+        />
+
+</RelativeLayout>

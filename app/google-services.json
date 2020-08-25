@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "299709223397",
+    "firebase_url": "https://barber-app-315e2.firebaseio.com",
+    "project_id": "barber-app-315e2",
+    "storage_bucket": "barber-app-315e2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:299709223397:android:9569401a9f812e3486df0c",
+        "android_client_info": {
+          "package_name": "com.anara.salon"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "299709223397-722icv55824s4hsqfu32vsq45bga86ti.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCFcle8JCpbMXDHItDOK1eZiqGlU0mDsmo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "299709223397-722icv55824s4hsqfu32vsq45bga86ti.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
