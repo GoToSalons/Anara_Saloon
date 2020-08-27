@@ -1,19 +1,18 @@
 package com.anara.salon;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.anara.salon.Activities.IntroActivity;
 import com.anara.salon.Activities.ListSalonActivity;
 import com.anara.salon.Adapters.BookingAdapter;
-import com.anara.salon.Apis.RequestManager;
 import com.anara.salon.Dialogs.MainScreenDialog;
 import com.anara.salon.Models.BookingModel;
 import com.bumptech.glide.Glide;

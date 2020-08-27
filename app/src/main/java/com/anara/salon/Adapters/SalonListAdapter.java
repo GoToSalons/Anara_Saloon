@@ -16,7 +16,7 @@ import com.anara.salon.Activities.ListSalonActivity;
 import com.anara.salon.Activities.SingleSalonActivity;
 import com.anara.salon.Models.SalonModel;
 import com.anara.salon.R;
-
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
@@ -38,11 +38,12 @@ public class SalonListAdapter extends RecyclerView.Adapter<SalonListAdapter.MyVi
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         SalonModel salonModel = salonModels.get(holder.getAdapterPosition());
-        holder.salonImage.setImageDrawable(salonModel.getSalonImage());
+        Glide.with(holder.salonImage).load(salonModel.getImageUrl()).centerCrop().into(holder.salonImage);
         holder.salonName.setText(salonModel.getSalonName());
         holder.salonAddress.setText(salonModel.getSalonAddress());
-        holder.salonTiming.setText(salonModel.getSalonTiming());
-        holder.salonPricing.setText(salonModel.getSalonPricing());
+        holder.salonTiming.setText(salonModel.getSalonOpeningTime() + " : " + salonModel.getSalonClosingTime());
+        holder.salonPricing.setText("Starts at ₹" + salonModel.getSalonPricing() + " for 1 person");
+        holder.salonType.setText(salonModel.getSalonType());
         holder.view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -59,9 +60,10 @@ public class SalonListAdapter extends RecyclerView.Adapter<SalonListAdapter.MyVi
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         ImageView salonImage;
-        TextView salonName,salonAddress,salonTiming,salonPricing,salonRating,salonRatingPerson;
+        TextView salonName, salonAddress, salonTiming, salonPricing, salonRating, salonRatingPerson, salonType;
         RelativeLayout view;
         RatingBar ratingBar;
+
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             salonImage = itemView.findViewById(R.id.salon_image);
@@ -69,6 +71,7 @@ public class SalonListAdapter extends RecyclerView.Adapter<SalonListAdapter.MyVi
             salonAddress = itemView.findViewById(R.id.address);
             salonTiming = itemView.findViewById(R.id.time);
             salonPricing = itemView.findViewById(R.id.pricing);
+            salonType = itemView.findViewById(R.id.type);
             view = itemView.findViewById(R.id.view);
 
         }

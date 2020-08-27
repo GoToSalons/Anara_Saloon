@@ -1,8 +1,5 @@
 package com.anara.salon.Activities;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -11,14 +8,14 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.anara.salon.Apis.RequestManager;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.anara.salon.Apis.RequestResponseManager;
 import com.anara.salon.Helpers.CustomTextWatcher;
 import com.anara.salon.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskExecutors;
 import com.google.firebase.FirebaseException;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
@@ -31,6 +28,7 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
     String mobileNumber;
     EditText ed1, ed2, ed3, ed4, ed5, ed6;
     private String mVerificationId;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,15 +114,13 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
     private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
 
         mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(OTPActivity.this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            RequestManager.postLogin(OTPActivity.this,mobileNumber);
+                .addOnCompleteListener(OTPActivity.this, task -> {
+                    if (task.isSuccessful()) {
 
-                        } else {
-                            Toast.makeText(OTPActivity.this, "Invalid Code", Toast.LENGTH_SHORT).show();
-                        }
+                        RequestResponseManager.sendMobile(mobileNumber, OTPActivity.this);
+
+                    } else {
+                        Toast.makeText(OTPActivity.this, "Invalid Code", Toast.LENGTH_SHORT).show();
                     }
                 });
     }

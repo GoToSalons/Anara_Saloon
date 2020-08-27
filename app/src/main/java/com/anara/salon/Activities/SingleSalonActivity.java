@@ -1,17 +1,16 @@
 package com.anara.salon.Activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.anara.salon.Adapters.ServicesAdapter;
-import com.anara.salon.Apis.RequestManager;
 import com.anara.salon.Models.ServicesModel;
 import com.anara.salon.R;
 import com.bumptech.glide.Glide;

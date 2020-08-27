@@ -1,9 +1,5 @@
 package com.anara.salon.Activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -11,13 +7,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.anara.salon.Adapters.SalonListAdapter;
-import com.anara.salon.Apis.RequestManager;
-import com.anara.salon.Dialogs.SortDialog;
-import com.anara.salon.Models.SalonModel;
-import com.anara.salon.R;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
+import com.anara.salon.Apis.RequestResponseManager;
+import com.anara.salon.Dialogs.SortDialog;
+import com.anara.salon.R;
 
 public class ListSalonActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -33,7 +28,6 @@ public class ListSalonActivity extends AppCompatActivity implements View.OnClick
         LinearLayout filterLayout = findViewById(R.id.filter);
         ImageView backButton = findViewById(R.id.back_button);
         serviceSort = findViewById(R.id.service_sort);
-        RequestManager.getService(ListSalonActivity.this);
         sortLayout.setOnClickListener(this);
         filterLayout.setOnClickListener(this);
         backButton.setOnClickListener(this);
@@ -41,15 +35,8 @@ public class ListSalonActivity extends AppCompatActivity implements View.OnClick
         Intent intent = getIntent();
         serviceName.setText(intent.getStringExtra("service"));
 
-        ArrayList<SalonModel> salonModels = new ArrayList<>();
-        for (int i=0;i<10;i++){
-            salonModels.add(new SalonModel(getResources().getDrawable(R.drawable.salon_sample),
-                    "Enrich Salon","Lamington Road, Mumbai Central","3.5","50",
-                    "11:00 am - 4:00 pm","Starts at ₹200 for 1 person"));
-        }
-        SalonListAdapter salonListAdapter = new SalonListAdapter(ListSalonActivity.this,salonModels);
-        recyclerView.setLayoutManager(new LinearLayoutManager(ListSalonActivity.this));
-        recyclerView.setAdapter(salonListAdapter);
+        RequestResponseManager.getSalon(ListSalonActivity.this, recyclerView);
+
 
     }
 

@@ -1,51 +1,85 @@
 package com.anara.salon.Models;
 
-import android.graphics.drawable.Drawable;
+import com.google.gson.annotations.SerializedName;
 
-public class SalonModel {
-    Drawable salonImage;
+import java.io.Serializable;
+
+public class SalonModel implements Serializable {
+
+    @SerializedName("saloon_name")
     String salonName;
-    String salonAddress;
-    String salonRating;
-    String salonRatingPerson;
-    String salonTiming;
+
+    @SerializedName("open_time")
+    String salonOpeningTime;
+
+    @SerializedName("close_time")
+    String salonClosingTime;
+
+    @SerializedName("saloon_type")
+    String SalonType;
+
+    @SerializedName("street_address")
+    String SalonAddress;
+
+    @SerializedName("image")
+    String ImageUrl;
+
+    @SerializedName("price")
     String salonPricing;
 
-    public SalonModel(Drawable salonImage, String salonName, String salonAddress, String salonRating, String salonRatingPerson, String salonTiming, String salonPricing) {
-        this.salonImage = salonImage;
-        this.salonName = salonName;
-        this.salonAddress = salonAddress;
-        this.salonRating = salonRating;
-        this.salonRatingPerson = salonRatingPerson;
-        this.salonTiming = salonTiming;
-        this.salonPricing = salonPricing;
+    public String getSalonAddress() {
+        return SalonAddress;
     }
 
-    public Drawable getSalonImage() {
-        return salonImage;
+    public void setSalonAddress(String salonAddress) {
+        SalonAddress = salonAddress;
     }
 
     public String getSalonName() {
         return salonName;
     }
 
-    public String getSalonAddress() {
-        return salonAddress;
+    public void setSalonName(String salonName) {
+        this.salonName = salonName;
     }
 
-    public String getSalonRating() {
-        return salonRating;
+    public String getSalonOpeningTime() {
+        return salonOpeningTime;
     }
 
-    public String getSalonRatingPerson() {
-        return salonRatingPerson;
+    public void setSalonOpeningTime(String salonOpeningTime) {
+        this.salonOpeningTime = salonOpeningTime;
     }
 
-    public String getSalonTiming() {
-        return salonTiming;
+    public String getSalonClosingTime() {
+        return salonClosingTime;
+    }
+
+    public void setSalonClosingTime(String salonClosingTime) {
+        this.salonClosingTime = salonClosingTime;
+    }
+
+    public String getSalonType() {
+        return SalonType;
+    }
+
+    public void setSalonType(String salonType) {
+        SalonType = salonType;
+    }
+
+    public String getImageUrl() {
+        return ImageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        ImageUrl = imageUrl;
     }
 
     public String getSalonPricing() {
         return salonPricing;
+    }
+
+    public void setSalonPricing(String salonPricing) {
+        this.salonPricing = salonPricing;
     }
 }
