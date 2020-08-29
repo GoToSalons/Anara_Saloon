@@ -4,7 +4,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -39,12 +38,7 @@ public class SubItemAdapter extends RecyclerView.Adapter<SubItemAdapter.MyViewHo
         holder.checkBox.setOnCheckedChangeListener(null);
         holder.checkBox.setChecked(subItem.isChecked());
 
-        holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                subItem.setChecked(isChecked);
-            }
-        });
+        holder.checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> subItem.setChecked(isChecked));
     }
 
     @Override

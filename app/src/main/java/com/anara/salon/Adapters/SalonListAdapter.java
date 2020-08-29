@@ -48,6 +48,7 @@ public class SalonListAdapter extends RecyclerView.Adapter<SalonListAdapter.MyVi
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(listSalonActivity, SingleSalonActivity.class);
+                intent.putExtra("salonId", salonModel.getSalonId());
                 listSalonActivity.startActivity(intent);
             }
         });

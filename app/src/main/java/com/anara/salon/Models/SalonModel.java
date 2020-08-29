@@ -6,6 +6,9 @@ import java.io.Serializable;
 
 public class SalonModel implements Serializable {
 
+    @SerializedName("saloon_id")
+    String salonId;
+
     @SerializedName("saloon_name")
     String salonName;
 
@@ -29,6 +32,14 @@ public class SalonModel implements Serializable {
 
     public String getSalonAddress() {
         return SalonAddress;
+    }
+
+    public String getSalonId() {
+        return salonId;
+    }
+
+    public void setSalonId(String salonId) {
+        this.salonId = salonId;
     }
 
     public void setSalonAddress(String salonAddress) {

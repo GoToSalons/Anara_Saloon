@@ -2,7 +2,7 @@ package com.anara.salon.Models;
 
 public class SubItemModel {
     String Name;
-    Boolean isChecked;
+    boolean isChecked = false;
 
     public SubItemModel(String name) {
         Name = name;
@@ -16,7 +16,7 @@ public class SubItemModel {
         Name = name;
     }
 
-    public Boolean isChecked() {
+    public boolean isChecked() {
         return isChecked;
     }
 

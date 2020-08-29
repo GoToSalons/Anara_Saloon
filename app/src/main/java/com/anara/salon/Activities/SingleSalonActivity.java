@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.anara.salon.Adapters.ServicesAdapter;
+import com.anara.salon.Apis.RequestResponseManager;
 import com.anara.salon.Models.ServicesModel;
 import com.anara.salon.R;
 import com.bumptech.glide.Glide;
@@ -28,11 +29,14 @@ public class SingleSalonActivity extends AppCompatActivity {
         Glide.with(salonImage).load(getResources().getDrawable(R.drawable.salon_sample)).centerCrop().into(salonImage);
         RecyclerView recyclerView = findViewById(R.id.service_recycler);
 
+
+        RequestResponseManager.getSalonDetails();
+
         RelativeLayout book = findViewById(R.id.book);
         book.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(SingleSalonActivity.this,SelectTimeBarber.class);
+                Intent intent = new Intent(SingleSalonActivity.this, SelectTimeBarber.class);
                 startActivity(intent);
             }
         });

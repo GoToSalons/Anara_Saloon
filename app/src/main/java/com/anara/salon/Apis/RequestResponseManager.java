@@ -36,11 +36,13 @@ public class RequestResponseManager {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+            Log.e("tag", " = = = = =  = " + parameters.toString());
             Call<String> call = apiInterface.sendMobile(parameters.toString());
             call.enqueue(new Callback<String>() {
                 @Override
                 public void onResponse(@NotNull Call<String> call, @NotNull retrofit2.Response<String> response) {
-                    Log.e("Retrofit", "Retrofit Response" + response.toString());
+                    Log.e("Retrofit", "Retrofit Response" + response.body());
+
                 }
 
                 @Override
@@ -58,7 +60,7 @@ public class RequestResponseManager {
         ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
         JSONObject parameters = new JSONObject();
         try {
-            parameters.put("service_id", 1);
+            parameters.put("service_id", "1");
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -89,5 +91,31 @@ public class RequestResponseManager {
 
             }
         });
+    }
+
+    public static void getSalonDetails() {
+        try {
+            ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
+            JSONObject parameters = new JSONObject();
+            try {
+                parameters.put("saloon_id", "2");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            Call<String> call = apiInterface.getSalonDetails(parameters.toString());
+            call.enqueue(new Callback<String>() {
+                @Override
+                public void onResponse(Call<String> call, Response<String> response) {
+                    Log.e("Retrofit", "Retrofit Response" + response.body());
+                }
+
+                @Override
+                public void onFailure(Call<String> call, Throwable t) {
+                    Log.e("Retrofit", "Retrofit Error" + t.getMessage());
+                }
+            });
+        } catch (Exception e) {
+            Log.e("============", "=========" + e.getMessage());
+        }
     }
 }
