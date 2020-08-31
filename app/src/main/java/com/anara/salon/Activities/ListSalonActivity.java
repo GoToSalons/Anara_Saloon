@@ -8,11 +8,18 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.anara.salon.Adapters.SalonListAdapter;
+import com.anara.salon.ApiResponse.BaseRs;
+import com.anara.salon.Apis.Const;
 import com.anara.salon.Apis.RequestResponseManager;
 import com.anara.salon.Dialogs.SortDialog;
 import com.anara.salon.R;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class ListSalonActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -35,7 +42,22 @@ public class ListSalonActivity extends AppCompatActivity implements View.OnClick
         Intent intent = getIntent();
         serviceName.setText(intent.getStringExtra("service"));
 
-        RequestResponseManager.getSalon(ListSalonActivity.this, recyclerView);
+        JSONObject parameters = new JSONObject();
+        try {
+            parameters.put("service_id", "1");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+        RequestResponseManager.getSalon(parameters, Const.Get_Salon_Request, response -> {
+            if (response != null) {
+                BaseRs baseRs = (BaseRs) response;
+                SalonListAdapter salonListAdapter = new SalonListAdapter(ListSalonActivity.this, baseRs.getSaloons());
+                recyclerView.setLayoutManager(new LinearLayoutManager(ListSalonActivity.this));
+                recyclerView.setAdapter(salonListAdapter);
+            }
+        });
 
 
     }

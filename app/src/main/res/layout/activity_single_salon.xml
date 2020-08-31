@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -20,9 +19,11 @@
                 android:id="@+id/salon_image"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:scaleType="centerCrop"
                 android:src="@drawable/salon_sample"/>
 
             <ImageView
+                android:id="@+id/back_btn"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_margin="18dp"
@@ -154,6 +155,7 @@
                     android:src="@drawable/gender" />
 
                 <TextView
+                    android:id="@+id/salon_type"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Unisex"
@@ -218,18 +220,18 @@
                 android:layout_height="1.5dp"
                 android:background="@color/colorMediumGrey"
                 android:layout_margin="10dp"
-                android:layout_below="@+id/book"/>
+                android:layout_below="@id/book"/>
 
             <TextView
                 android:id="@+id/contact"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/view2"
+                android:layout_marginStart="22dp"
                 android:text="Contact Us"
                 android:textColor="@color/colorBlack"
                 android:textSize="18sp"
-                android:textStyle="bold"
-                android:layout_marginStart="22dp"
-                android:layout_below="@id/view2"/>
+                android:textStyle="bold" />
 
             <LinearLayout
                 android:id="@+id/mobile"
@@ -266,18 +268,21 @@
                 android:layout_marginTop="8dp">
 
                 <ImageView
+                    android:id="@+id/instagram"
                     android:layout_width="36dp"
                     android:layout_height="36dp"
                     android:src="@drawable/instagram"
                     android:layout_marginEnd="8dp"/>
 
                 <ImageView
+                    android:id="@+id/facebook"
                     android:layout_width="36dp"
                     android:layout_height="36dp"
                     android:src="@drawable/facebook"
                     android:layout_marginEnd="8dp"/>
 
                 <ImageView
+                    android:id="@+id/twitter"
                     android:layout_width="36dp"
                     android:layout_height="36dp"
                     android:src="@drawable/twitter"

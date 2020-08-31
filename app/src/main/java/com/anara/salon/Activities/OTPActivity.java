@@ -11,6 +11,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.anara.salon.Apis.Const;
 import com.anara.salon.Apis.RequestResponseManager;
 import com.anara.salon.Helpers.CustomTextWatcher;
 import com.anara.salon.R;
@@ -19,6 +20,9 @@ import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.concurrent.TimeUnit;
 
@@ -117,7 +121,18 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
                 .addOnCompleteListener(OTPActivity.this, task -> {
                     if (task.isSuccessful()) {
 
-                        RequestResponseManager.sendMobile(mobileNumber, OTPActivity.this);
+                        JSONObject parameters = new JSONObject();
+                        try {
+                            parameters.put("mobile", mobileNumber);
+                            RequestResponseManager.sendMobile(parameters, Const.Saloon_Register_Request,new RequestResponseManager.OnResponseListener() {
+                                @Override
+                                public void onResponse(Object response) {
+
+                                }
+                            });
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
 
                     } else {
                         Toast.makeText(OTPActivity.this, "Invalid Code", Toast.LENGTH_SHORT).show();

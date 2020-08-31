@@ -1,5 +1,6 @@
 package com.anara.salon.Adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,15 +15,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.anara.salon.Activities.ListSalonActivity;
 import com.anara.salon.Activities.SingleSalonActivity;
-import com.anara.salon.Models.SalonModel;
+import com.anara.salon.ApiResponse.SalonModel;
 import com.anara.salon.R;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
 public class SalonListAdapter extends RecyclerView.Adapter<SalonListAdapter.MyViewHolder> {
+
     ArrayList<SalonModel> salonModels;
     ListSalonActivity listSalonActivity;
+
     public SalonListAdapter(ListSalonActivity listSalonActivity, ArrayList<SalonModel> salonModels) {
         this.salonModels = salonModels;
         this.listSalonActivity = listSalonActivity;
@@ -35,20 +38,21 @@ public class SalonListAdapter extends RecyclerView.Adapter<SalonListAdapter.MyVi
         return new MyViewHolder(itemView);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         SalonModel salonModel = salonModels.get(holder.getAdapterPosition());
-        Glide.with(holder.salonImage).load(salonModel.getImageUrl()).centerCrop().into(holder.salonImage);
-        holder.salonName.setText(salonModel.getSalonName());
-        holder.salonAddress.setText(salonModel.getSalonAddress());
-        holder.salonTiming.setText(salonModel.getSalonOpeningTime() + " : " + salonModel.getSalonClosingTime());
-        holder.salonPricing.setText("Starts at ₹" + salonModel.getSalonPricing() + " for 1 person");
-        holder.salonType.setText(salonModel.getSalonType());
+        Glide.with(holder.salonImage).load(salonModel.getImage()).centerCrop().into(holder.salonImage);
+        holder.salonName.setText(salonModel.getSaloon_name());
+        holder.salonAddress.setText(salonModel.getStreet_address());
+        holder.salonTiming.setText(salonModel.getOpen_time() + " : " + salonModel.getClose_time());
+        holder.salonPricing.setText("Starts at ₹" + salonModel.getPrice() + " for 1 person");
+        holder.salonType.setText(salonModel.getSaloon_type());
         holder.view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(listSalonActivity, SingleSalonActivity.class);
-                intent.putExtra("salonId", salonModel.getSalonId());
+                intent.putExtra("salonId", salonModel.getSaloon_id());
                 listSalonActivity.startActivity(intent);
             }
         });

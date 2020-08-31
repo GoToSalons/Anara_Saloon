@@ -2,22 +2,8 @@ package com.anara.salon.Apis;
 
 import android.util.Log;
 
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.anara.salon.Activities.ListSalonActivity;
-import com.anara.salon.Activities.OTPActivity;
-import com.anara.salon.Adapters.SalonListAdapter;
-import com.anara.salon.Models.SalonModel;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
 import org.jetbrains.annotations.NotNull;
-import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -26,28 +12,25 @@ import retrofit2.Response;
 
 public class RequestResponseManager {
 
-    public static void sendMobile(String mobileNumber, OTPActivity otpActivity) {
+    public static void sendMobile(JSONObject parameters, int requestCode, OnResponseListener onResponseListener) {
         try {
             ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
 
-            JSONObject parameters = new JSONObject();
-            try {
-                parameters.put("mobile", mobileNumber);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+
             Log.e("tag", " = = = = =  = " + parameters.toString());
             Call<String> call = apiInterface.sendMobile(parameters.toString());
             call.enqueue(new Callback<String>() {
                 @Override
                 public void onResponse(@NotNull Call<String> call, @NotNull retrofit2.Response<String> response) {
-                    Log.e("Retrofit", "Retrofit Response" + response.body());
-
+                    Log.e("tag", " = =  = call response = = = " + response.body());
+                    Object object = invokeParser(response.body(), requestCode);
+                    onResponseListener.onResponse(object);
                 }
 
                 @Override
                 public void onFailure(@NotNull Call<String> call, @NotNull Throwable t) {
-                    Log.e("Retrofit", "Retrofit Error" + t.getMessage());
+                    Log.e("tag", " = =  = call error = = = " + t.getMessage());
+                    onResponseListener.onResponse(null);
                 }
             });
         } catch (Exception e) {
@@ -56,66 +39,66 @@ public class RequestResponseManager {
 
     }
 
-    public static void getSalon(ListSalonActivity listSalonActivity, RecyclerView recyclerView) {
+    public static void getSalon(JSONObject parameters, int requestCode, OnResponseListener onResponseListener) {
         ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
-        JSONObject parameters = new JSONObject();
-        try {
-            parameters.put("service_id", "1");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+
 
         Call<String> call = apiInterface.getSalonList(parameters.toString());
         call.enqueue(new Callback<String>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
+            public void onResponse(@NotNull Call<String> call, @NotNull Response<String> response) {
 
-                try {
-                    JSONObject jObject = new JSONObject(response.body());
-                    Log.e("=========", "==========" + response.body());
-                    ArrayList<SalonModel> salonList = new Gson().fromJson(jObject.getString("saloons"), new TypeToken<List<SalonModel>>() {
-                    }.getType());
-                    SalonListAdapter salonListAdapter = new SalonListAdapter(listSalonActivity, salonList);
-                    recyclerView.setLayoutManager(new LinearLayoutManager(listSalonActivity));
-                    recyclerView.setAdapter(salonListAdapter);
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
+                Log.e("tag", " = =  = call response = = = " + response.body());
+                Object object = invokeParser(response.body(), requestCode);
+                onResponseListener.onResponse(object);
 
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
-
+            public void onFailure(@NotNull Call<String> call, @NotNull Throwable t) {
+                Log.e("tag", " = =  = call error = = = " + t.getMessage());
+                onResponseListener.onResponse(null);
             }
         });
     }
 
-    public static void getSalonDetails() {
+    public static void getSalonDetails(JSONObject parameters, int requestCode, OnResponseListener onResponseListener) {
         try {
             ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
-            JSONObject parameters = new JSONObject();
-            try {
-                parameters.put("saloon_id", "2");
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+
             Call<String> call = apiInterface.getSalonDetails(parameters.toString());
             call.enqueue(new Callback<String>() {
                 @Override
-                public void onResponse(Call<String> call, Response<String> response) {
-                    Log.e("Retrofit", "Retrofit Response" + response.body());
+                public void onResponse(@NotNull Call<String> call, @NotNull Response<String> response) {
+                    Log.e("tag", " = =  = call response = = = " + response.body());
+                    Object object = invokeParser(response.body(), requestCode);
+                    onResponseListener.onResponse(object);
                 }
 
                 @Override
-                public void onFailure(Call<String> call, Throwable t) {
-                    Log.e("Retrofit", "Retrofit Error" + t.getMessage());
+                public void onFailure(@NotNull Call<String> call, @NotNull Throwable t) {
+                    Log.e("tag", " = =  = call error = = = " + t.getMessage());
+                    onResponseListener.onResponse(null);
                 }
             });
         } catch (Exception e) {
             Log.e("============", "=========" + e.getMessage());
         }
     }
+
+    public static Object invokeParser(String response, int requestType) {
+        if (requestType == Const.Saloon_Register_Request) {
+            return Parser.getHomePageResponse(response);
+        } else if (requestType == Const.Get_Salon_Request) {
+            return Parser.getHomePageResponse(response);
+        } else if (requestType == Const.Get_Salon_Details_Request) {
+            return Parser.getHomePageResponse(response);
+        }
+        return null;
+    }
+
+    public interface OnResponseListener {
+        void onResponse(Object response);
+    }
+
 }
