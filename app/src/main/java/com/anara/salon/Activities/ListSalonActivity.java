@@ -24,13 +24,16 @@ import org.json.JSONObject;
 public class ListSalonActivity extends AppCompatActivity implements View.OnClickListener {
 
     public TextView serviceSort;
+    public RecyclerView recyclerView;
+    String serviceId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_salon);
 
         TextView serviceName = findViewById(R.id.service_name);
-        RecyclerView recyclerView = findViewById(R.id.salon_list);
+        recyclerView = findViewById(R.id.salon_list);
         LinearLayout sortLayout = findViewById(R.id.sort);
         LinearLayout filterLayout = findViewById(R.id.filter);
         ImageView backButton = findViewById(R.id.back_button);
@@ -38,13 +41,15 @@ public class ListSalonActivity extends AppCompatActivity implements View.OnClick
         sortLayout.setOnClickListener(this);
         filterLayout.setOnClickListener(this);
         backButton.setOnClickListener(this);
+        recyclerView.setLayoutManager(new LinearLayoutManager(ListSalonActivity.this));
 
         Intent intent = getIntent();
         serviceName.setText(intent.getStringExtra("service"));
 
         JSONObject parameters = new JSONObject();
+        serviceId = intent.getStringExtra("serviceId");
         try {
-            parameters.put("service_id", "1");
+            parameters.put("service_id", serviceId);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -54,7 +59,6 @@ public class ListSalonActivity extends AppCompatActivity implements View.OnClick
             if (response != null) {
                 BaseRs baseRs = (BaseRs) response;
                 SalonListAdapter salonListAdapter = new SalonListAdapter(ListSalonActivity.this, baseRs.getSaloons());
-                recyclerView.setLayoutManager(new LinearLayoutManager(ListSalonActivity.this));
                 recyclerView.setAdapter(salonListAdapter);
             }
         });
@@ -65,7 +69,7 @@ public class ListSalonActivity extends AppCompatActivity implements View.OnClick
     @Override
     public void onClick(View view) {
         if (view.getId()== R.id.sort){
-            SortDialog sortDialog = new SortDialog(ListSalonActivity.this);
+            SortDialog sortDialog = new SortDialog(ListSalonActivity.this, serviceId);
             sortDialog.show(getSupportFragmentManager(), "Main");
         }else if (view.getId()== R.id.filter){
             Intent intent = new Intent(ListSalonActivity.this,FilterActivity.class);

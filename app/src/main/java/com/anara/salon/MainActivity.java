@@ -70,19 +70,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         if (view.getId()==R.id.hair_saloon){
             Intent intent = new Intent(MainActivity.this, ListSalonActivity.class);
-            intent.putExtra("service","Hair Salons");
+            intent.putExtra("service", "Hair Salons");
+            intent.putExtra("serviceId", "1");
             startActivity(intent);
         }else if (view.getId()==R.id.beard_skin){
             Intent intent = new Intent(MainActivity.this, ListSalonActivity.class);
-            intent.putExtra("service","Beard & Skin Salons");
+            intent.putExtra("service", "Beard & Skin Salons");
+            intent.putExtra("serviceId", "2");
             startActivity(intent);
         }else if (view.getId()==R.id.beauty){
             Intent intent = new Intent(MainActivity.this, ListSalonActivity.class);
-            intent.putExtra("service","Beauty Salons");
+            intent.putExtra("service", "Beauty Salons");
+            intent.putExtra("serviceId", "3");
             startActivity(intent);
         }else if (view.getId()==R.id.others){
             Intent intent = new Intent(MainActivity.this, ListSalonActivity.class);
-            intent.putExtra("service","Other Services");
+            intent.putExtra("service", "Other Services");
+            intent.putExtra("serviceId", "4");
             startActivity(intent);
         }
     }

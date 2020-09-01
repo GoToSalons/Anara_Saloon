@@ -18,4 +18,12 @@ public interface ApiInterface {
     @Headers({"Content-type: application/json"})
     @POST("/admin/api/saloons/saloon-details")
     Call<String> getSalonDetails(@Body String salonId);
+
+    @Headers({"Content-type: application/json"})
+    @POST("/admin/api/customers/register")
+    Call<String> setProfileDetails(@Body String json);
+
+    @Headers({"Content-type: application/json"})
+    @POST("/admin/api/saloons/filter-options")
+    Call<String> getFilters(@Body String json);
 }
