@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RatingBar;
@@ -11,12 +12,16 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.collection.ArraySet;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
 import com.anara.salon.Adapters.ServicesAdapter;
+import com.anara.salon.Adapters.SliderAdapter;
 import com.anara.salon.ApiResponse.BaseRs;
 import com.anara.salon.ApiResponse.SalonModel;
+import com.anara.salon.ApiResponse.SalonServices;
 import com.anara.salon.Apis.Const;
 import com.anara.salon.Apis.RequestResponseManager;
 import com.anara.salon.R;
@@ -25,9 +30,14 @@ import com.bumptech.glide.Glide;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
+
 
 public class SingleSalonActivity extends AppCompatActivity implements View.OnClickListener {
 
+    public ArraySet<SalonServices> checkedItems;
     // service list
     RecyclerView recyclerView;
 
@@ -42,6 +52,9 @@ public class SingleSalonActivity extends AppCompatActivity implements View.OnCli
 
     TextView salon_name, rating_text, rating_text_person, address, time, salon_type, mobile_number;
     ImageView instagram, facebook, twitter;
+    ViewPager enchantedViewPager;
+    private Handler handler = new Handler();
+    private Runnable Update;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +72,7 @@ public class SingleSalonActivity extends AppCompatActivity implements View.OnCli
         time = findViewById(R.id.time);
         salon_type = findViewById(R.id.salon_type);
         mobile_number = findViewById(R.id.mobile_number);
+        enchantedViewPager = findViewById(R.id.viewPager_home_fragment);
 
         instagram = findViewById(R.id.instagram);
         facebook = findViewById(R.id.facebook);
@@ -68,6 +82,7 @@ public class SingleSalonActivity extends AppCompatActivity implements View.OnCli
         instagram.setOnClickListener(this);
         facebook.setOnClickListener(this);
         twitter.setOnClickListener(this);
+        checkedItems = new ArraySet<>();
 
         RelativeLayout book = findViewById(R.id.book);
         book.setOnClickListener(view -> {
@@ -93,18 +108,19 @@ public class SingleSalonActivity extends AppCompatActivity implements View.OnCli
             if (response != null) {
                 BaseRs baseRs = (BaseRs) response;
                 salonModel = baseRs.getSalonModel();
-                ServicesAdapter servicesAdapter = new ServicesAdapter(baseRs.getSaloon_services());
+                ServicesAdapter servicesAdapter = new ServicesAdapter(baseRs.getSaloon_services(),SingleSalonActivity.this);
                 recyclerView.setLayoutManager(new LinearLayoutManager(SingleSalonActivity.this, LinearLayoutManager.HORIZONTAL, false));
                 recyclerView.setAdapter(servicesAdapter);
 
                 if (baseRs.getSaloon_gallery().size() > 0) {
-                    Glide.with(salonImage).load(baseRs.getSaloon_gallery().get(0)).placeholder(R.drawable.salon_sample).centerCrop().into(salonImage);
+                    addSlider(baseRs.getSaloon_gallery());
                 }
 
                 salon_name.setText(salonModel.getSaloon_name());
                 address.setText(salonModel.getStreet_address());
                 time.setText(salonModel.getOpen_time() + " - " + salonModel.getClose_time());
                 salon_type.setText(salonModel.getSaloon_type());
+                mobile_number.setText(salonModel.getContact_no());
 
                 if (salonModel.getInstagram().equals("")) {
                     instagram.setVisibility(View.GONE);
@@ -152,5 +168,31 @@ public class SingleSalonActivity extends AppCompatActivity implements View.OnCli
         }
     }
 
+    private void addSlider(ArrayList<String> imageUrl) {
+        SliderAdapter sliderAdapter = new SliderAdapter(imageUrl,SingleSalonActivity.this);
+        enchantedViewPager.setAdapter(sliderAdapter);
+        enchantedViewPager.setCurrentItem(0);
+
+        if (sliderAdapter.getCount() > 1) {
+            Timer timer = new Timer(); // This will create a new Thread
+            long DELAY_MS = 6000;
+            long PERIOD_MS = 8000;
+            timer.schedule(new TimerTask() { // task to be scheduled
+                @Override
+                public void run() {
+                    handler.post(Update);
+                }
+            }, DELAY_MS, PERIOD_MS);
+        }
+
+        Update = () -> {
+            if (enchantedViewPager.getCurrentItem() == (sliderAdapter.getCount() - 1)) {
+                enchantedViewPager.setCurrentItem(0, true);
+            } else {
+                enchantedViewPager.setCurrentItem(enchantedViewPager.getCurrentItem() + 1, true);
+            }
+        };
+
+    }
 
 }

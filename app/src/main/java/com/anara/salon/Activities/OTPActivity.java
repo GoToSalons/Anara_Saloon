@@ -11,9 +11,11 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.anara.salon.ApiResponse.BaseRs;
 import com.anara.salon.Apis.Const;
 import com.anara.salon.Apis.RequestResponseManager;
 import com.anara.salon.Helpers.CustomTextWatcher;
+import com.anara.salon.MainActivity;
 import com.anara.salon.R;
 import com.google.android.gms.tasks.TaskExecutors;
 import com.google.firebase.FirebaseException;
@@ -124,10 +126,18 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
                         JSONObject parameters = new JSONObject();
                         try {
                             parameters.put("mobile", mobileNumber);
-                            RequestResponseManager.sendMobile(parameters, Const.Saloon_Register_Request,new RequestResponseManager.OnResponseListener() {
+                            RequestResponseManager.sendMobile(parameters, Const.Customer_Login_Request,new RequestResponseManager.OnResponseListener() {
                                 @Override
                                 public void onResponse(Object response) {
-
+                                    BaseRs baseRs = (BaseRs) response;
+                                    if (baseRs.getLogin().equals("false")) {
+                                        Intent intent = new Intent(OTPActivity.this, ProfileActivity.class);
+                                        intent.putExtra("number", mobileNumber);
+                                        startActivity(intent);
+                                    } else {
+                                        Intent intent = new Intent(OTPActivity.this, MainActivity.class);
+                                        startActivity(intent);
+                                    }
                                 }
                             });
                         } catch (JSONException e) {

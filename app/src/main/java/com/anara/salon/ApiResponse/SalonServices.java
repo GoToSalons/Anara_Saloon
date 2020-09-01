@@ -1,7 +1,10 @@
 package com.anara.salon.ApiResponse;
 
+import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import androidx.annotation.RequiresApi;
 
 import java.io.Serializable;
 
@@ -11,20 +14,33 @@ public class SalonServices implements Serializable, Parcelable {
     String service_id;
     String name;
     String price;
+    boolean isChecked;
 
+    public boolean isChecked() {
+        return isChecked;
+    }
+
+    public void setChecked(boolean checked) {
+        isChecked = checked;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.Q)
     protected SalonServices(Parcel in) {
         main_service_id = in.readInt();
         service_id = in.readString();
         name = in.readString();
         price = in.readString();
+        isChecked = in.readBoolean();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.Q)
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(main_service_id);
         dest.writeString(service_id);
         dest.writeString(name);
         dest.writeString(price);
+        dest.writeBoolean(isChecked);
     }
 
     @Override
@@ -33,6 +49,7 @@ public class SalonServices implements Serializable, Parcelable {
     }
 
     public static final Creator<SalonServices> CREATOR = new Creator<SalonServices>() {
+        @RequiresApi(api = Build.VERSION_CODES.Q)
         @Override
         public SalonServices createFromParcel(Parcel in) {
             return new SalonServices(in);

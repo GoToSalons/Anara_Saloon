@@ -87,7 +87,7 @@ public class RequestResponseManager {
     }
 
     public static Object invokeParser(String response, int requestType) {
-        if (requestType == Const.Saloon_Register_Request) {
+        if (requestType == Const.Customer_Login_Request) {
             return Parser.getHomePageResponse(response);
         } else if (requestType == Const.Get_Salon_Request) {
             return Parser.getHomePageResponse(response);
