@@ -73,6 +73,7 @@ public class ListSalonActivity extends AppCompatActivity implements View.OnClick
             sortDialog.show(getSupportFragmentManager(), "Main");
         }else if (view.getId()== R.id.filter){
             Intent intent = new Intent(ListSalonActivity.this,FilterActivity.class);
+            intent.putExtra("service_id", serviceId);
             startActivity(intent);
         }else if(view.getId()==R.id.back_button){
             onBackPressed();

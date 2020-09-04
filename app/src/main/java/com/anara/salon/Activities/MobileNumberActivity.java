@@ -1,29 +1,24 @@
 package com.anara.salon.Activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.anara.salon.R;
-import com.google.firebase.auth.PhoneAuthProvider;
 import com.hbb20.CountryCodePicker;
-
-import java.util.concurrent.TimeUnit;
 
 public class MobileNumberActivity extends AppCompatActivity {
 
 
-    CountryCodePicker countryCodePicker;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mobile_number);
-        countryCodePicker = findViewById(R.id.cpp);
+        CountryCodePicker countryCodePicker = findViewById(R.id.cpp);
         EditText phoneNumber = findViewById(R.id.phone_number);
         countryCodePicker.registerCarrierNumberEditText(phoneNumber);
 
@@ -32,7 +27,7 @@ public class MobileNumberActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MobileNumberActivity.this,OTPActivity.class);
-                intent.putExtra("mobile",countryCodePicker.getFullNumberWithPlus().toString());
+                intent.putExtra("mobile", countryCodePicker.getFullNumberWithPlus());
                 startActivity(intent);
 
             }
