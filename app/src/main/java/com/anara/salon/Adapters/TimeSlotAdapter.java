@@ -1,5 +1,6 @@
 package com.anara.salon.Adapters;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,15 +9,19 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.anara.salon.Activities.SelectTimeBarber;
 import com.anara.salon.Models.TimeModel;
 import com.anara.salon.R;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class TimeSlotAdapter extends RecyclerView.Adapter<TimeSlotAdapter.MyViewHolder> {
     ArrayList<TimeModel> timeModels;
 
-    public TimeSlotAdapter(ArrayList<TimeModel> timeModels) {
+    public TimeSlotAdapter(ArrayList<TimeModel> timeModels, SelectTimeBarber selectTimeBarber) {
         this.timeModels = timeModels;
     }
 
@@ -27,15 +32,21 @@ public class TimeSlotAdapter extends RecyclerView.Adapter<TimeSlotAdapter.MyView
         return new MyViewHolder(itemView);
     }
 
+    @SuppressLint("SimpleDateFormat")
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         TimeModel timeModel = timeModels.get(holder.getAdapterPosition());
-        if (timeModel.getTime().contains("AM")){
-            holder.time.setText(timeModel.getTime().replace(" AM",""));
-            holder.amPm.setText("AM");
-        }else {
-            holder.time.setText(timeModel.getTime().replace(" PM",""));
-            holder.amPm.setText("PM");
+
+        try {
+
+            SimpleDateFormat oldSimpleDateFormat = new SimpleDateFormat("HH:mm");
+            SimpleDateFormat newSimpleDateFormat = new SimpleDateFormat("hh:mm a");
+            Date fromTime = oldSimpleDateFormat.parse(timeModel.getStart_time());
+            Date toTime = oldSimpleDateFormat.parse(timeModel.getEnd_time());
+            holder.timeFrom.setText(newSimpleDateFormat.format(fromTime));
+            holder.timeTo.setText(newSimpleDateFormat.format(toTime));
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
     }
 
@@ -44,12 +55,13 @@ public class TimeSlotAdapter extends RecyclerView.Adapter<TimeSlotAdapter.MyView
         return timeModels.size();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView time,amPm;
+    public static class MyViewHolder extends RecyclerView.ViewHolder {
+        TextView timeFrom, timeTo;
+
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            time = itemView.findViewById(R.id.time);
-            amPm = itemView.findViewById(R.id.am_pm);
+            timeFrom = itemView.findViewById(R.id.time_from);
+            timeTo = itemView.findViewById(R.id.time_to);
         }
     }
 }

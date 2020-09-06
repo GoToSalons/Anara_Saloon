@@ -52,7 +52,5 @@ public class FilterActivity extends AppCompatActivity {
         MainItemAdapter mainItemAdapter = new MainItemAdapter(arrayList, SubItems, FilterActivity.this);
         MainItems.setLayoutManager(new LinearLayoutManager(FilterActivity.this));
         MainItems.setAdapter(mainItemAdapter);
-
-
     }
 }

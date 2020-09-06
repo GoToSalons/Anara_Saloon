@@ -26,4 +26,12 @@ public interface ApiInterface {
     @Headers({"Content-type: application/json"})
     @POST("/admin/api/saloons/filter-options")
     Call<String> getFilters(@Body String json);
+
+    @Headers({"Content-type: application/json"})
+    @POST("/admin/api/saloons/fetch-saloon-barbers")
+    Call<String> getBarbers(@Body String json);
+
+    @Headers({"Content-type: application/json"})
+    @POST("/admin/api/customers/fetch-time-slot")
+    Call<String> getTimeSlots(@Body String json);
 }

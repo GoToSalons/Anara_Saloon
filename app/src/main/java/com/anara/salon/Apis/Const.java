@@ -10,5 +10,7 @@ public class Const {
     public static int Get_Salon_Details_Request = 3;
     public static int Set_Profile_details = 4;
     public static int Get_Filters = 5;
+    public static int Get_Barbers = 6;
+    public static int Get_Time_Slots = 7;
 
 }

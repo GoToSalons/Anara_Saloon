@@ -1,5 +1,7 @@
 package com.anara.salon.ApiResponse;
 
+import com.anara.salon.Models.BarberModel;
+import com.anara.salon.Models.TimeModel;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
@@ -26,6 +28,29 @@ public class BaseRs {
 
     @SerializedName("saloon_gallery")
     public ArrayList<String> saloon_gallery;
+
+    @SerializedName("barbers")
+    public ArrayList<BarberModel> barbers;
+
+    @SerializedName("available_time")
+    public ArrayList<TimeModel> timeSlots;
+
+
+    public ArrayList<TimeModel> getTimeSlots() {
+        return timeSlots;
+    }
+
+    public void setTimeSlots(ArrayList<TimeModel> timeSlots) {
+        this.timeSlots = timeSlots;
+    }
+
+    public ArrayList<BarberModel> getBarbers() {
+        return barbers;
+    }
+
+    public void setBarbers(ArrayList<BarberModel> barbers) {
+        this.barbers = barbers;
+    }
 
     public ArrayList<SalonServices> getSaloon_services() {
         return saloon_services;

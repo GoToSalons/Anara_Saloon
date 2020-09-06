@@ -136,6 +136,54 @@ public class RequestResponseManager {
         }
     }
 
+    public static void getBarbers(JSONObject parameters, int requestCode, OnResponseListener onResponseListener) {
+        try {
+            ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
+
+            Call<String> call = apiInterface.getBarbers(parameters.toString());
+            call.enqueue(new Callback<String>() {
+                @Override
+                public void onResponse(@NotNull Call<String> call, @NotNull Response<String> response) {
+                    Log.e("tag", " = =  = call response = = = " + response.body());
+                    Object object = invokeParser(response.body(), requestCode);
+                    onResponseListener.onResponse(object);
+                }
+
+                @Override
+                public void onFailure(@NotNull Call<String> call, @NotNull Throwable t) {
+                    Log.e("tag", " = =  = call error = = = " + t.getMessage());
+                    onResponseListener.onResponse(null);
+                }
+            });
+        } catch (Exception e) {
+            Log.e("============", "=========" + e.getMessage());
+        }
+    }
+
+    public static void getTimeSlots(JSONObject parameters, int requestCode, OnResponseListener onResponseListener) {
+        try {
+            ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
+
+            Call<String> call = apiInterface.getTimeSlots(parameters.toString());
+            call.enqueue(new Callback<String>() {
+                @Override
+                public void onResponse(@NotNull Call<String> call, @NotNull Response<String> response) {
+                    Log.e("tag", " = =  = call response time = = = " + response.body());
+                    Object object = invokeParser(response.body(), requestCode);
+                    onResponseListener.onResponse(object);
+                }
+
+                @Override
+                public void onFailure(@NotNull Call<String> call, @NotNull Throwable t) {
+                    Log.e("tag", " = =  = call error = = = " + t.getMessage());
+                    onResponseListener.onResponse(null);
+                }
+            });
+        } catch (Exception e) {
+            Log.e("============", "=========" + e.getMessage());
+        }
+    }
+
     public static Object invokeParser(String response, int requestType) {
         if (requestType == Const.Customer_Login_Request) {
             return Parser.getHomePageResponse(response);
@@ -144,6 +192,10 @@ public class RequestResponseManager {
         } else if (requestType == Const.Get_Salon_Details_Request) {
             return Parser.getHomePageResponse(response);
         } else if (requestType == Const.Set_Profile_details) {
+            return Parser.getHomePageResponse(response);
+        } else if (requestType == Const.Get_Barbers) {
+            return Parser.getHomePageResponse(response);
+        } else if (requestType == Const.Get_Time_Slots) {
             return Parser.getHomePageResponse(response);
         }
         return null;

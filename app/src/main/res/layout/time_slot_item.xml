@@ -1,33 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="65dp"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginStart="4dp"
     android:layout_marginEnd="4dp"
     android:background="@drawable/dark_grey_bg">
 
     <TextView
-        android:id="@+id/time"
+        android:id="@+id/time_from"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="11:30"
+        android:text=""
         android:textColor="@color/colorBlack"
-        android:textSize="18sp"
+        android:textSize="16sp"
         android:layout_marginStart="7dp"
         android:layout_marginEnd="7dp"
         android:layout_marginTop="22dp"
-        android:layout_centerHorizontal="true"/>
+        android:layout_centerHorizontal="true" />
 
     <TextView
-        android:id="@+id/am_pm"
+        android:id="@+id/to"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/time"
-        android:text="AM"
+        android:layout_below="@+id/time_from"
+        android:layout_marginTop="2dp"
         android:layout_centerInParent="true"
         android:textColor="@color/colorBlack"
+        android:layout_marginBottom="2dp"
+        android:text="To" />
+
+    <TextView
+        android:id="@+id/time_to"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/to"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="7dp"
+        android:layout_marginEnd="7dp"
+        android:text="11:30 AM"
         android:layout_marginBottom="22dp"
-        android:textSize="12sp"/>
+        android:textColor="@color/colorBlack"
+        android:textSize="16sp" />
 
 </RelativeLayout>

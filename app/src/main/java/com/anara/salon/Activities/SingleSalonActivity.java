@@ -12,7 +12,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.collection.ArraySet;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
@@ -25,11 +24,11 @@ import com.anara.salon.ApiResponse.SalonServices;
 import com.anara.salon.Apis.Const;
 import com.anara.salon.Apis.RequestResponseManager;
 import com.anara.salon.R;
-import com.bumptech.glide.Glide;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -37,7 +36,7 @@ import java.util.TimerTask;
 
 public class SingleSalonActivity extends AppCompatActivity implements View.OnClickListener {
 
-    public ArraySet<SalonServices> checkedItems;
+    public ArrayList<SalonServices> checkedItems;
     // service list
     RecyclerView recyclerView;
 
@@ -82,11 +81,15 @@ public class SingleSalonActivity extends AppCompatActivity implements View.OnCli
         instagram.setOnClickListener(this);
         facebook.setOnClickListener(this);
         twitter.setOnClickListener(this);
-        checkedItems = new ArraySet<>();
+        checkedItems = new ArrayList<>();
 
         RelativeLayout book = findViewById(R.id.book);
         book.setOnClickListener(view -> {
             Intent intent = new Intent(SingleSalonActivity.this, SelectTimeBarber.class);
+            intent.putExtra("salonId", getIntent().getStringExtra("salonId"));
+            Bundle args = new Bundle();
+            args.putSerializable("list", (Serializable) checkedItems);
+            intent.putExtra("checkedServices", args);
             startActivity(intent);
         });
 
