@@ -1,14 +1,9 @@
 package com.anara.salon.ApiResponse;
 
-import android.os.Build;
-import android.os.Parcel;
-import android.os.Parcelable;
-
-import androidx.annotation.RequiresApi;
 
 import java.io.Serializable;
 
-public class SalonServices implements Serializable, Parcelable {
+public class SalonServices implements Serializable {
 
     int main_service_id;
     String service_id;
@@ -24,42 +19,6 @@ public class SalonServices implements Serializable, Parcelable {
         isChecked = checked;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.Q)
-    protected SalonServices(Parcel in) {
-        main_service_id = in.readInt();
-        service_id = in.readString();
-        name = in.readString();
-        price = in.readString();
-        isChecked = in.readBoolean();
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.Q)
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(main_service_id);
-        dest.writeString(service_id);
-        dest.writeString(name);
-        dest.writeString(price);
-        dest.writeBoolean(isChecked);
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    public static final Creator<SalonServices> CREATOR = new Creator<SalonServices>() {
-        @RequiresApi(api = Build.VERSION_CODES.Q)
-        @Override
-        public SalonServices createFromParcel(Parcel in) {
-            return new SalonServices(in);
-        }
-
-        @Override
-        public SalonServices[] newArray(int size) {
-            return new SalonServices[size];
-        }
-    };
 
     public int getMain_service_id() {
         return main_service_id;
@@ -92,4 +51,5 @@ public class SalonServices implements Serializable, Parcelable {
     public void setPrice(String price) {
         this.price = price;
     }
+
 }

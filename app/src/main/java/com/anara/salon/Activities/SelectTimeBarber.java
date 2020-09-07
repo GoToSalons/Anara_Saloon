@@ -1,6 +1,9 @@
 package com.anara.salon.Activities;
 
+import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,6 +21,8 @@ import com.anara.salon.Models.TimeModel;
 import com.anara.salon.R;
 import com.github.jhonnyx2012.horizontalpicker.DatePickerListener;
 import com.github.jhonnyx2012.horizontalpicker.HorizontalPicker;
+import com.razorpay.Checkout;
+import com.razorpay.PaymentResultListener;
 
 import org.joda.time.DateTime;
 import org.json.JSONArray;
@@ -26,7 +31,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class SelectTimeBarber extends AppCompatActivity implements DatePickerListener {
+public class SelectTimeBarber extends AppCompatActivity implements DatePickerListener, PaymentResultListener {
 
     public ArrayList<BarberModel> checked;
     public int barberId = -1;
@@ -83,6 +88,28 @@ public class SelectTimeBarber extends AppCompatActivity implements DatePickerLis
         timeRecyclerView.setLayoutManager(new LinearLayoutManager(SelectTimeBarber.this, LinearLayoutManager.HORIZONTAL, false));
         timeRecyclerView.setAdapter(timeSlotAdapter);
 
+
+        findViewById(R.id.next).setOnClickListener(view -> startPayment());
+
+    }
+
+    public void startPayment() {
+        Activity activity = this;
+        Checkout co = new Checkout();
+        try {
+            JSONObject options = new JSONObject();
+            options.put("name", "Anara Salon");
+            options.put("description", "Payment");
+            options.put("image", "https://rzp-mobile.s3.amazonaws.com/images/rzp.png");
+            options.put("currency", "INR");
+
+            double total = 10000;
+            options.put("amount", total);
+            co.open(activity, options);
+
+        } catch (Exception e) {
+            Log.e("error", " error " + e.toString());
+        }
     }
 
     @Override
@@ -121,5 +148,15 @@ public class SelectTimeBarber extends AppCompatActivity implements DatePickerLis
                 timeRecyclerView.setAdapter(timeSlotAdapter);
             }
         });
+    }
+
+    @Override
+    public void onPaymentSuccess(String s) {
+        Toast.makeText(this, "" + s, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onPaymentError(int i, String s) {
+        Toast.makeText(this, ""+s, Toast.LENGTH_SHORT).show();
     }
 }

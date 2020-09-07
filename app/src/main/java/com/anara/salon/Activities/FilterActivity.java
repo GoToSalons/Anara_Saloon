@@ -31,7 +31,6 @@ public class FilterActivity extends AppCompatActivity {
         RecyclerView SubItems = findViewById(R.id.sub_items);
 
         ArrayList<MainItemModel> arrayList = new ArrayList<>();
-        arrayList.add(new MainItemModel("Option", new ArrayList<>(Arrays.asList(new SubItemModel("Hair"), new SubItemModel("Beard"), new SubItemModel("Nails"), new SubItemModel("Waxing")))));
         arrayList.add(new MainItemModel("Budget", new ArrayList<>(Arrays.asList(new SubItemModel("0-500"), new SubItemModel("500-1000"), new SubItemModel("1000-2000"), new SubItemModel("2000-5000")))));
         arrayList.add(new MainItemModel("Rating", new ArrayList<>(Arrays.asList(new SubItemModel("3.0"), new SubItemModel("4.0"), new SubItemModel("5.0")))));
         arrayList.add(new MainItemModel("Valid For", new ArrayList<>(Arrays.asList(new SubItemModel("Male"), new SubItemModel("Female"), new SubItemModel("Unisex")))));
