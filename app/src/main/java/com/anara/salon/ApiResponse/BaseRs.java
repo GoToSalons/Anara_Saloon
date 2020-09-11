@@ -1,7 +1,10 @@
 package com.anara.salon.ApiResponse;
 
 import com.anara.salon.Models.BarberModel;
+import com.anara.salon.Models.BookingModel;
+import com.anara.salon.Models.SubItemModel;
 import com.anara.salon.Models.TimeModel;
+import com.anara.salon.Models.UserModel;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
@@ -35,6 +38,61 @@ public class BaseRs {
     @SerializedName("available_time")
     public ArrayList<TimeModel> timeSlots;
 
+    @SerializedName("user")
+    public UserModel userModel;
+
+    @SerializedName("booking_list")
+    public ArrayList<BookingModel> bookings;
+
+    @SerializedName("price_range")
+    public ArrayList<SubItemModel> priceFilters;
+
+    @SerializedName("rating")
+    public ArrayList<SubItemModel> ratingFilters;
+
+    @SerializedName("valid_for")
+    public ArrayList<SubItemModel> validForFilters;
+
+
+    public ArrayList<SubItemModel> getPriceFilters() {
+        return priceFilters;
+    }
+
+    public void setPriceFilters(ArrayList<SubItemModel> priceFilters) {
+        this.priceFilters = priceFilters;
+    }
+
+    public ArrayList<SubItemModel> getRatingFilters() {
+        return ratingFilters;
+    }
+
+    public void setRatingFilters(ArrayList<SubItemModel> ratingFilters) {
+        this.ratingFilters = ratingFilters;
+    }
+
+    public ArrayList<SubItemModel> getValidForFilters() {
+        return validForFilters;
+    }
+
+    public void setValidForFilters(ArrayList<SubItemModel> validForFilters) {
+        this.validForFilters = validForFilters;
+    }
+
+    public ArrayList<BookingModel> getBookings() {
+        return bookings;
+    }
+
+    public void setBookings(ArrayList<BookingModel> bookings) {
+        this.bookings = bookings;
+    }
+
+    public UserModel getUserModel() {
+        return userModel;
+    }
+
+    public void setUserModel(UserModel userModel) {
+        this.userModel = userModel;
+    }
 
     public ArrayList<TimeModel> getTimeSlots() {
         return timeSlots;

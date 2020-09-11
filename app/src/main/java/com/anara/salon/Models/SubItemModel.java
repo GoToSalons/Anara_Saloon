@@ -1,19 +1,17 @@
 package com.anara.salon.Models;
 
-public class SubItemModel {
-    String Name;
+import java.io.Serializable;
+
+public class SubItemModel implements Serializable {
+    String name;
     boolean isChecked = false;
 
-    public SubItemModel(String name) {
-        Name = name;
-    }
-
     public String getName() {
-        return Name;
+        return name;
     }
 
     public void setName(String name) {
-        Name = name;
+        this.name = name;
     }
 
     public boolean isChecked() {

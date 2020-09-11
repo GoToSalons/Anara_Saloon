@@ -1,6 +1,7 @@
 package com.anara.salon.Activities;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -16,6 +17,8 @@ import com.anara.salon.ApiResponse.BaseRs;
 import com.anara.salon.ApiResponse.SalonServices;
 import com.anara.salon.Apis.Const;
 import com.anara.salon.Apis.RequestResponseManager;
+import com.anara.salon.Helpers.PrefManager;
+import com.anara.salon.MainActivity;
 import com.anara.salon.Models.BarberModel;
 import com.anara.salon.Models.TimeModel;
 import com.anara.salon.R;
@@ -39,6 +42,8 @@ public class SelectTimeBarber extends AppCompatActivity implements DatePickerLis
     ArrayList<SalonServices> salonServices;
     String date;
     RecyclerView timeRecyclerView;
+    public String startTime, endTime;
+    PrefManager prefManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +58,8 @@ public class SelectTimeBarber extends AppCompatActivity implements DatePickerLis
         Bundle args = getIntent().getBundleExtra("checkedServices");
         salonServices = (ArrayList<SalonServices>) args.getSerializable("list");
         salonId = Integer.parseInt(getIntent().getStringExtra("salonId"));
+
+        prefManager = new PrefManager(SelectTimeBarber.this);
 
         JSONObject jsonObject = new JSONObject();
         try {
@@ -83,6 +90,7 @@ public class SelectTimeBarber extends AppCompatActivity implements DatePickerLis
 
         ArrayList<TimeModel> timeModels = new ArrayList<>();
 
+
         TimeSlotAdapter timeSlotAdapter = new TimeSlotAdapter(timeModels, SelectTimeBarber.this);
 
         timeRecyclerView.setLayoutManager(new LinearLayoutManager(SelectTimeBarber.this, LinearLayoutManager.HORIZONTAL, false));
@@ -103,8 +111,12 @@ public class SelectTimeBarber extends AppCompatActivity implements DatePickerLis
             options.put("image", "https://rzp-mobile.s3.amazonaws.com/images/rzp.png");
             options.put("currency", "INR");
 
-            double total = 10000;
-            options.put("amount", total);
+            double total = 0.0;
+            for (SalonServices salonServices : salonServices) {
+                total = total + Double.parseDouble(salonServices.getPrice());
+            }
+
+            options.put("amount", total * 100);
             co.open(activity, options);
 
         } catch (Exception e) {
@@ -143,20 +155,61 @@ public class SelectTimeBarber extends AppCompatActivity implements DatePickerLis
             @Override
             public void onResponse(Object response) {
                 BaseRs baseRs = (BaseRs) response;
-                TimeSlotAdapter timeSlotAdapter = new TimeSlotAdapter(baseRs.getTimeSlots(), SelectTimeBarber.this);
-                timeRecyclerView.setLayoutManager(new LinearLayoutManager(SelectTimeBarber.this, LinearLayoutManager.HORIZONTAL, false));
-                timeRecyclerView.setAdapter(timeSlotAdapter);
+                if (baseRs.getTimeSlots()!=null && baseRs.getTimeSlots().size()!=0){
+                    TimeSlotAdapter timeSlotAdapter = new TimeSlotAdapter(baseRs.getTimeSlots(), SelectTimeBarber.this);
+                    timeRecyclerView.setLayoutManager(new LinearLayoutManager(SelectTimeBarber.this, LinearLayoutManager.HORIZONTAL, false));
+                    timeRecyclerView.setAdapter(timeSlotAdapter);
+                }else {
+                    ArrayList<TimeModel> timeModels = new ArrayList<>();
+                    TimeSlotAdapter timeSlotAdapter = new TimeSlotAdapter(timeModels, SelectTimeBarber.this);
+                    timeRecyclerView.setLayoutManager(new LinearLayoutManager(SelectTimeBarber.this, LinearLayoutManager.HORIZONTAL, false));
+                    timeRecyclerView.setAdapter(timeSlotAdapter);
+                    Toast.makeText(SelectTimeBarber.this, "No Time Slots Available", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
     }
 
     @Override
     public void onPaymentSuccess(String s) {
-        Toast.makeText(this, "" + s, Toast.LENGTH_SHORT).show();
+        orderSuccess();
+    }
+
+    private void orderSuccess() {
+        try {
+            JSONArray jsonArray = new JSONArray();
+            for (SalonServices salonServices : salonServices) {
+                jsonArray.put(Integer.parseInt(salonServices.getService_id()));
+            }
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("saloon_id", salonId);
+            jsonObject.put("barber_id", barberId);
+            jsonObject.put("services", jsonArray);
+            jsonObject.put("book_date", date);
+            jsonObject.put("customer_id", prefManager.getInteger("customerId",-1));
+            JSONObject object = new JSONObject();
+            object.put("start_time", startTime);
+            object.put("end_time", endTime);
+            jsonObject.put("booked_time", object);
+
+            RequestResponseManager.orderSuccess(jsonObject, Const.orderSuccess, new RequestResponseManager.OnResponseListener() {
+                @Override
+                public void onResponse(Object response) {
+                    Toast.makeText(SelectTimeBarber.this, "Order Success", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(SelectTimeBarber.this, MainActivity.class);
+                    startActivity(intent);
+                }
+            });
+
+        } catch (Exception e) {
+            Log.e("eee", "eee" + e.getMessage());
+        }
+
     }
 
     @Override
     public void onPaymentError(int i, String s) {
-        Toast.makeText(this, ""+s, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "onPaymentError" + s, Toast.LENGTH_SHORT).show();
     }
 }

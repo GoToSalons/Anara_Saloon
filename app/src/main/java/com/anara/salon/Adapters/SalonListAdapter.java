@@ -19,6 +19,7 @@ import com.anara.salon.ApiResponse.SalonModel;
 import com.anara.salon.R;
 import com.bumptech.glide.Glide;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 public class SalonListAdapter extends RecyclerView.Adapter<SalonListAdapter.MyViewHolder> {
@@ -48,6 +49,7 @@ public class SalonListAdapter extends RecyclerView.Adapter<SalonListAdapter.MyVi
         holder.salonTiming.setText(salonModel.getOpen_time() + " : " + salonModel.getClose_time());
         holder.salonPricing.setText("Starts at ₹" + salonModel.getPrice() + " for 1 person");
         holder.salonType.setText(salonModel.getSaloon_type());
+        holder.ratingBar.setRating(round(salonModel.getRatings(),1));
         holder.view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -56,6 +58,7 @@ public class SalonListAdapter extends RecyclerView.Adapter<SalonListAdapter.MyVi
                 listSalonActivity.startActivity(intent);
             }
         });
+        holder.salonRating.setText(round(salonModel.getRatings(),1)+"");
     }
 
     @Override
@@ -78,7 +81,14 @@ public class SalonListAdapter extends RecyclerView.Adapter<SalonListAdapter.MyVi
             salonPricing = itemView.findViewById(R.id.pricing);
             salonType = itemView.findViewById(R.id.type);
             view = itemView.findViewById(R.id.view);
+            ratingBar = itemView.findViewById(R.id.rating);
+            salonRating = itemView.findViewById(R.id.rating_text);
 
         }
+    }
+    public static float round(float d, int decimalPlace) {
+        BigDecimal bd = new BigDecimal(Float.toString(d));
+        bd = bd.setScale(decimalPlace, BigDecimal.ROUND_HALF_UP);
+        return bd.floatValue();
     }
 }

@@ -69,7 +69,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
                     android:text="(25)"
-                    android:textColor="@color/colorBlack" />
+                    android:textColor="@color/colorBlack"
+                    android:visibility="invisible"/>
             </LinearLayout>
 
             <LinearLayout

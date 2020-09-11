@@ -12,7 +12,7 @@ public interface ApiInterface {
     Call<String> getSalonList(@Body String serviceId);
 
     @Headers({"Content-type: application/json"})
-    @POST("/admin/api/saloons/login")
+    @POST("/admin/api/customers/login")
     Call<String> sendMobile(@Body String mobile);
 
     @Headers({"Content-type: application/json"})
@@ -34,4 +34,20 @@ public interface ApiInterface {
     @Headers({"Content-type: application/json"})
     @POST("/admin/api/customers/fetch-time-slot")
     Call<String> getTimeSlots(@Body String json);
+
+    @Headers({"Content-type: application/json"})
+    @POST("/admin/api/customers/book-service")
+    Call<String> orderSuccess(@Body String toString);
+
+    @Headers({"Content-type: application/json"})
+    @POST("/admin/api/customers/booking-list")
+    Call<String> getBookings(@Body String toString);
+
+    @Headers({"Content-type: application/json"})
+    @POST("/admin/api/customers/rate-barber")
+    Call<String> Rate(@Body String toString);
+
+    @Headers({"Content-type: application/json"})
+    @POST("/admin/api/saloons/delete-booking")
+    Call<String> CancelBooking(@Body String toString);
 }

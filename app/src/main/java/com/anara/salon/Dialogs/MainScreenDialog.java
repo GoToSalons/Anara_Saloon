@@ -71,6 +71,7 @@ public class MainScreenDialog extends DialogFragment implements View.OnClickList
 
         if (v.getId()==R.id.profile_layout){
             Intent intent = new Intent(mainActivity, ProfileActivity.class);
+            intent.putExtra("mode","view");
             startActivity(intent);
             dismiss();
         }else if (v.getId()==R.id.appointments){

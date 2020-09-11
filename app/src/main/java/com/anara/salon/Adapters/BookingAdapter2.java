@@ -11,17 +11,23 @@ import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.anara.salon.Activities.BookingsActivity;
+import com.anara.salon.Apis.Const;
+import com.anara.salon.Apis.RequestResponseManager;
 import com.anara.salon.Dialogs.RateDialog;
+import com.anara.salon.MainActivity;
 import com.anara.salon.Models.BookingModel;
 import com.anara.salon.R;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
-public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.MyViewHolder> {
+public class BookingAdapter2 extends RecyclerView.Adapter<BookingAdapter2.MyViewHolder> {
 
     ArrayList<BookingModel> bookingModels;
-    BookingsActivity activity;
-    public BookingAdapter(BookingsActivity activity, ArrayList<BookingModel> bookingModels) {
+    MainActivity activity;
+    public BookingAdapter2(MainActivity activity, ArrayList<BookingModel> bookingModels) {
         this.bookingModels = bookingModels;
         this.activity = activity;
     }
@@ -45,19 +51,23 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.MyViewHo
             s.append(" ").append(bookingModel.getBookingServices().get(i).getService_name());
             holder.name.setText(s);
         }
+        holder.completed.setText(bookingModel.getStatus());
         holder.RateCancel.setOnClickListener(view -> {
-            if (bookingModel.getStatus().equals("Completed")){
-                RateDialog rateDialog = new RateDialog(activity,bookingModel.getBarber_id());
-                rateDialog.show(activity.getSupportFragmentManager(),"rate");
-            }else {
-                holder.RateCancel.setText("Cancel");
+            if (!bookingModel.getStatus().equals("Completed")){
+                JSONObject jsonObject = new JSONObject();
+                try {
+                    jsonObject.put("booking_id",bookingModel.getId());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                RequestResponseManager.CancelBooking(jsonObject, Const.Cancel, response -> {
+                    notifyItemRemoved(position);
+                });
             }
         });
-        holder.completed.setText(bookingModel.getStatus());
+
         if (bookingModel.getStatus().equals("Completed")){
-            holder.RateCancel.setText("Rate");
-        }else {
-            holder.RateCancel.setText("Cancel");
+            holder.itemView.setVisibility(View.GONE);
         }
 
     }

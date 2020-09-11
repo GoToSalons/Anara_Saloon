@@ -19,9 +19,11 @@ public class SubItemAdapter extends RecyclerView.Adapter<SubItemAdapter.MyViewHo
 
     ArrayList<SubItemModel> subItems;
     FilterActivity filterActivity;
-    public SubItemAdapter(FilterActivity filterActivity, ArrayList<SubItemModel> subItems) {
+    String mainItem;
+    public SubItemAdapter(FilterActivity filterActivity, ArrayList<SubItemModel> subItems, String itemName) {
         this.subItems = subItems;
         this.filterActivity = filterActivity;
+        this.mainItem = itemName;
     }
 
     @NonNull
@@ -38,7 +40,21 @@ public class SubItemAdapter extends RecyclerView.Adapter<SubItemAdapter.MyViewHo
         holder.checkBox.setOnCheckedChangeListener(null);
         holder.checkBox.setChecked(subItem.isChecked());
 
-        holder.checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> subItem.setChecked(isChecked));
+        holder.checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            switch (mainItem) {
+                case "Budget":
+                    filterActivity.priceRange.put(subItem.getName());
+                    break;
+                case "Rating":
+                    filterActivity.Rating.put(subItem.getName());
+                    break;
+                case "Valid For":
+                    filterActivity.validFor.put(subItem.getName());
+                    break;
+            }
+            subItem.setChecked(isChecked);
+        });
+
     }
 
     @Override

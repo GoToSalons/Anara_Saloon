@@ -16,13 +16,12 @@ public class RequestResponseManager {
         try {
             ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
 
-
             Log.e("tag", " = = = = =  = " + parameters.toString());
             Call<String> call = apiInterface.setProfileDetails(parameters.toString());
             call.enqueue(new Callback<String>() {
                 @Override
                 public void onResponse(@NotNull Call<String> call, @NotNull retrofit2.Response<String> response) {
-                    Log.e("tag", " = =  = call response = = = " + response.body());
+                    Log.e("tag", " = =  = call response = = = Register" + response.body());
                     Object object = invokeParser(response.body(), requestCode);
                     onResponseListener.onResponse(object);
                 }
@@ -48,7 +47,8 @@ public class RequestResponseManager {
             call.enqueue(new Callback<String>() {
                 @Override
                 public void onResponse(@NotNull Call<String> call, @NotNull retrofit2.Response<String> response) {
-                    Log.e("tag", " = =  = call response = = = " + response.body());
+                    Log.e("tag", " = =  = call response = = = Mobile" + response.body());
+
                     Object object = invokeParser(response.body(), requestCode);
                     onResponseListener.onResponse(object);
                 }
@@ -62,7 +62,6 @@ public class RequestResponseManager {
         } catch (Exception e) {
             Log.e("============", "=========" + e.getMessage());
         }
-
     }
 
     public static void getSalon(JSONObject parameters, int requestCode, OnResponseListener onResponseListener) {
@@ -184,6 +183,101 @@ public class RequestResponseManager {
         }
     }
 
+    public static void orderSuccess(JSONObject parameters, int requestCode, OnResponseListener onResponseListener) {
+        try {
+            ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
+
+            Call<String> call = apiInterface.orderSuccess(parameters.toString());
+            call.enqueue(new Callback<String>() {
+                @Override
+                public void onResponse(@NotNull Call<String> call, @NotNull Response<String> response) {
+                    Log.e("tag", " = =  = call response order = = = " + response.body());
+                    Object object = invokeParser(response.body(), requestCode);
+                    onResponseListener.onResponse(object);
+                }
+
+                @Override
+                public void onFailure(@NotNull Call<String> call, @NotNull Throwable t) {
+                    Log.e("tag", " = =  = call error order = = = " + t.getMessage());
+                    onResponseListener.onResponse(null);
+                }
+            });
+        } catch (Exception e) {
+            Log.e("============", "=========" + e.getMessage());
+        }
+    }
+
+    public static void getBookings(JSONObject parameters, int requestCode, OnResponseListener onResponseListener) {
+        try {
+            ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
+
+            Call<String> call = apiInterface.getBookings(parameters.toString());
+            call.enqueue(new Callback<String>() {
+                @Override
+                public void onResponse(@NotNull Call<String> call, @NotNull Response<String> response) {
+                    Log.e("tag", " = =  = call response Bookings = = = " + response.body());
+                    Object object = invokeParser(response.body(), requestCode);
+                    onResponseListener.onResponse(object);
+                }
+
+                @Override
+                public void onFailure(@NotNull Call<String> call, @NotNull Throwable t) {
+                    Log.e("tag", " = =  = call error order = = = " + t.getMessage());
+                    onResponseListener.onResponse(null);
+                }
+            });
+        } catch (Exception e) {
+            Log.e("============", "=========" + e.getMessage());
+        }
+    }
+
+    public static void Rate(JSONObject parameters, int requestCode, OnResponseListener onResponseListener){
+        try {
+            ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
+
+            Call<String> call = apiInterface.Rate(parameters.toString());
+            call.enqueue(new Callback<String>() {
+                @Override
+                public void onResponse(@NotNull Call<String> call, @NotNull Response<String> response) {
+                    Log.e("tag", " = =  = call response Ratings = = = " + response.body());
+                    Object object = invokeParser(response.body(), requestCode);
+                    onResponseListener.onResponse(object);
+                }
+
+                @Override
+                public void onFailure(@NotNull Call<String> call, @NotNull Throwable t) {
+                    Log.e("tag", " = =  = call error order = = = " + t.getMessage());
+                    onResponseListener.onResponse(null);
+                }
+            });
+        } catch (Exception e) {
+            Log.e("============", "=========" + e.getMessage());
+        }
+    }
+    public static void CancelBooking(JSONObject parameters, int requestCode, OnResponseListener onResponseListener){
+        try {
+            ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
+
+            Call<String> call = apiInterface.CancelBooking(parameters.toString());
+            call.enqueue(new Callback<String>() {
+                @Override
+                public void onResponse(@NotNull Call<String> call, @NotNull Response<String> response) {
+                    Log.e("tag", " = =  = call response Ratings = = = " + response.body());
+                    Object object = invokeParser(response.body(), requestCode);
+                    onResponseListener.onResponse(object);
+                }
+
+                @Override
+                public void onFailure(@NotNull Call<String> call, @NotNull Throwable t) {
+                    Log.e("tag", " = =  = call error order = = = " + t.getMessage());
+                    onResponseListener.onResponse(null);
+                }
+            });
+        } catch (Exception e) {
+            Log.e("============", "=========" + e.getMessage());
+        }
+    }
+
     public static Object invokeParser(String response, int requestType) {
         if (requestType == Const.Customer_Login_Request) {
             return Parser.getHomePageResponse(response);
@@ -196,6 +290,16 @@ public class RequestResponseManager {
         } else if (requestType == Const.Get_Barbers) {
             return Parser.getHomePageResponse(response);
         } else if (requestType == Const.Get_Time_Slots) {
+            return Parser.getHomePageResponse(response);
+        } else if (requestType == Const.orderSuccess) {
+            return Parser.getHomePageResponse(response);
+        } else if (requestType == Const.getBookings){
+            return Parser.getHomePageResponse(response);
+        } else if (requestType == Const.Rate){
+            return Parser.getHomePageResponse(response);
+        } else if (requestType == Const.Get_Filters){
+            return Parser.getHomePageResponse(response);
+        }else if (requestType == Const.Cancel){
             return Parser.getHomePageResponse(response);
         }
         return null;

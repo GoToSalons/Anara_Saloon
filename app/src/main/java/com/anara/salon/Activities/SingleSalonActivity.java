@@ -29,6 +29,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -124,6 +125,8 @@ public class SingleSalonActivity extends AppCompatActivity implements View.OnCli
                 time.setText(salonModel.getOpen_time() + " - " + salonModel.getClose_time());
                 salon_type.setText(salonModel.getSaloon_type());
                 mobile_number.setText(salonModel.getContact_no());
+                rating.setRating(round(salonModel.getRatings(),1));
+                rating_text.setText(round(salonModel.getRatings(),1)+"");
 
                 if (salonModel.getInstagram().equals("")) {
                     instagram.setVisibility(View.GONE);
@@ -198,4 +201,9 @@ public class SingleSalonActivity extends AppCompatActivity implements View.OnCli
 
     }
 
+    public static float round(float d, int decimalPlace) {
+        BigDecimal bd = new BigDecimal(Float.toString(d));
+        bd = bd.setScale(decimalPlace, BigDecimal.ROUND_HALF_UP);
+        return bd.floatValue();
+    }
 }

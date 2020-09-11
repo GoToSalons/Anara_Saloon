@@ -80,10 +80,7 @@ public class SortDialog extends DialogFragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
 
-        if (v.getId() == R.id.popular) {
-            listSalonActivity.serviceSort.setText("Popular");
-            dismiss();
-        } else if (v.getId() == R.id.near_me) {
+        if (v.getId() == R.id.near_me) {
             listSalonActivity.serviceSort.setText("Near Me");
             dismiss();
         } else if (v.getId() == R.id.ratings) {
@@ -91,39 +88,13 @@ public class SortDialog extends DialogFragment implements View.OnClickListener {
             dismiss();
         } else if (v.getId() == R.id.low_high) {
             listSalonActivity.serviceSort.setText("Price Low to High");
-            JSONObject parameters = new JSONObject();
-            try {
-                parameters.put("service_id", serviceId);
-                parameters.put("sort_by", "price_low_high");
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            RequestResponseManager.getSalon(parameters, Const.Get_Salon_Request, response -> {
-                if (response != null) {
-                    BaseRs baseRs = (BaseRs) response;
-                    SalonListAdapter salonListAdapter = new SalonListAdapter(listSalonActivity, baseRs.getSaloons());
-                    listSalonActivity.recyclerView.setAdapter(salonListAdapter);
-                }
-            });
+            listSalonActivity.sort = "price_low_high";
+            listSalonActivity.getSalons();
             dismiss();
         } else if (v.getId() == R.id.high_low) {
             listSalonActivity.serviceSort.setText("Price High to Low");
-            JSONObject parameters = new JSONObject();
-            try {
-                parameters.put("service_id", serviceId);
-                parameters.put("sort_by", "price_high_low");
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            RequestResponseManager.getSalon(parameters, Const.Get_Salon_Request, response -> {
-                if (response != null) {
-                    BaseRs baseRs = (BaseRs) response;
-                    SalonListAdapter salonListAdapter = new SalonListAdapter(listSalonActivity, baseRs.getSaloons());
-                    listSalonActivity.recyclerView.setAdapter(salonListAdapter);
-                }
-            });
+            listSalonActivity.sort = "price_high_low";
+            listSalonActivity.getSalons();
             dismiss();
         } else if (v.getId() == R.id.dismiss_l) {
             dismiss();

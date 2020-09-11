@@ -2,6 +2,7 @@ package com.anara.salon.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -15,6 +16,7 @@ import com.anara.salon.ApiResponse.BaseRs;
 import com.anara.salon.Apis.Const;
 import com.anara.salon.Apis.RequestResponseManager;
 import com.anara.salon.Helpers.CustomTextWatcher;
+import com.anara.salon.Helpers.PrefManager;
 import com.anara.salon.MainActivity;
 import com.anara.salon.R;
 import com.google.android.gms.tasks.TaskExecutors;
@@ -126,15 +128,23 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
                         JSONObject parameters = new JSONObject();
                         try {
                             parameters.put("mobile", mobileNumber);
-                            RequestResponseManager.sendMobile(parameters, Const.Customer_Login_Request,new RequestResponseManager.OnResponseListener() {
+                            RequestResponseManager.sendMobile(parameters, Const.Customer_Login_Request, new RequestResponseManager.OnResponseListener() {
                                 @Override
                                 public void onResponse(Object response) {
                                     BaseRs baseRs = (BaseRs) response;
                                     if (baseRs.getLogin().equals("false")) {
                                         Intent intent = new Intent(OTPActivity.this, ProfileActivity.class);
+                                        intent.putExtra("mode","register");
                                         intent.putExtra("number", mobileNumber);
                                         startActivity(intent);
                                     } else {
+                                        PrefManager prefManager = new PrefManager(OTPActivity.this);
+                                        prefManager.setString("customerEmail",((BaseRs) response).getUserModel().getEmail());
+                                        prefManager.setString("customerName",((BaseRs) response).getUserModel().getName());
+                                        prefManager.setString("customerMobileNumber",((BaseRs) response).getUserModel().getMobile());
+                                        prefManager.setInteger("customerId",((BaseRs) response).getUserModel().getId());
+                                        prefManager.setLoggedIn(true);
+
                                         Intent intent = new Intent(OTPActivity.this, MainActivity.class);
                                         startActivity(intent);
                                     }
@@ -152,12 +162,10 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
 
     @Override
     public void onClick(View view) {
-        if(view.getId()==R.id.back_button){
+        if (view.getId() == R.id.back_button) {
             onBackPressed();
-        }else if (view.getId()==R.id.continue_button){
+        } else if (view.getId() == R.id.continue_button) {
             verifyCode();
         }
     }
-
-
 }

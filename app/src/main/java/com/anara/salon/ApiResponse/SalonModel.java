@@ -22,6 +22,7 @@ public class SalonModel implements Serializable, Parcelable {
     String twitter;
     String latitude;
     String logitude;
+    Float ratings;
 
     protected SalonModel(Parcel in) {
         saloon_id = in.readString();
@@ -39,6 +40,7 @@ public class SalonModel implements Serializable, Parcelable {
         twitter = in.readString();
         latitude = in.readString();
         logitude = in.readString();
+        ratings = in.readFloat();
     }
 
     @Override
@@ -58,6 +60,7 @@ public class SalonModel implements Serializable, Parcelable {
         dest.writeString(twitter);
         dest.writeString(latitude);
         dest.writeString(logitude);
+        dest.writeFloat(ratings);
     }
 
     @Override
@@ -195,5 +198,13 @@ public class SalonModel implements Serializable, Parcelable {
 
     public void setPrice(String price) {
         this.price = price;
+    }
+
+    public Float getRatings() {
+        return ratings;
+    }
+
+    public void setRatings(Float ratings) {
+        this.ratings = ratings;
     }
 }

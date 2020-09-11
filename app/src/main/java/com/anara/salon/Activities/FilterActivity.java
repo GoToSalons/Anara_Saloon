@@ -1,6 +1,10 @@
 package com.anara.salon.Activities;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.RelativeLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -13,7 +17,9 @@ import com.anara.salon.Apis.RequestResponseManager;
 import com.anara.salon.Models.MainItemModel;
 import com.anara.salon.Models.SubItemModel;
 import com.anara.salon.R;
+import com.google.gson.Gson;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -23,17 +29,18 @@ import java.util.Arrays;
 public class FilterActivity extends AppCompatActivity {
 
 
+    public JSONArray validFor;
+    public JSONArray Rating;
+    public JSONArray priceRange;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_filter);
         RecyclerView MainItems = findViewById(R.id.main_items);
         RecyclerView SubItems = findViewById(R.id.sub_items);
-
-        ArrayList<MainItemModel> arrayList = new ArrayList<>();
-        arrayList.add(new MainItemModel("Budget", new ArrayList<>(Arrays.asList(new SubItemModel("0-500"), new SubItemModel("500-1000"), new SubItemModel("1000-2000"), new SubItemModel("2000-5000")))));
-        arrayList.add(new MainItemModel("Rating", new ArrayList<>(Arrays.asList(new SubItemModel("3.0"), new SubItemModel("4.0"), new SubItemModel("5.0")))));
-        arrayList.add(new MainItemModel("Valid For", new ArrayList<>(Arrays.asList(new SubItemModel("Male"), new SubItemModel("Female"), new SubItemModel("Unisex")))));
+        RelativeLayout Apply = findViewById(R.id.apply);
+        RelativeLayout Reset = findViewById(R.id.reset);
 
         JSONObject parameters = new JSONObject();
         try {
@@ -42,14 +49,46 @@ public class FilterActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+        Apply.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(FilterActivity.this,ListSalonActivity.class);
+                intent.putExtra("validFor", new Gson().toJson(validFor));
+                intent.putExtra("Rating", new Gson().toJson(Rating));
+                intent.putExtra("priceRange", new Gson().toJson(priceRange));
+                intent.putExtra("serviceId",  getIntent().getStringExtra("service_id"));
+                intent.putExtra("mode", 2);
+                startActivity(intent);
+            }
+        });
+        Reset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(FilterActivity.this,ListSalonActivity.class);
+                intent.putExtra("mode", 1);
+                intent.putExtra("serviceId",  getIntent().getStringExtra("service_id"));
+                startActivity(intent);
+            }
+        });
+
+        validFor=new JSONArray();
+        Rating=new JSONArray();
+        priceRange=new JSONArray();
+
+
+
         RequestResponseManager.getFilters(parameters, Const.Get_Filters, new RequestResponseManager.OnResponseListener() {
             @Override
             public void onResponse(Object response) {
                 BaseRs baseRs = (BaseRs) response;
+                ArrayList<MainItemModel> arrayList = new ArrayList<>();
+                arrayList.add(new MainItemModel("Budget", baseRs.getPriceFilters()));
+                arrayList.add(new MainItemModel("Rating", baseRs.getRatingFilters()));
+                arrayList.add(new MainItemModel("Valid For", baseRs.getValidForFilters()));
+                MainItemAdapter mainItemAdapter = new MainItemAdapter(arrayList, SubItems, FilterActivity.this);
+                MainItems.setLayoutManager(new LinearLayoutManager(FilterActivity.this));
+                MainItems.setAdapter(mainItemAdapter);
             }
         });
-        MainItemAdapter mainItemAdapter = new MainItemAdapter(arrayList, SubItems, FilterActivity.this);
-        MainItems.setLayoutManager(new LinearLayoutManager(FilterActivity.this));
-        MainItems.setAdapter(mainItemAdapter);
     }
 }

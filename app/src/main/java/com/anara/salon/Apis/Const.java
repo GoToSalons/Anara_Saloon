@@ -12,5 +12,8 @@ public class Const {
     public static int Get_Filters = 5;
     public static int Get_Barbers = 6;
     public static int Get_Time_Slots = 7;
-
+    public static int orderSuccess = 8;
+    public static int getBookings = 9;
+    public static int Rate =10;
+    public static int Cancel =11;
 }

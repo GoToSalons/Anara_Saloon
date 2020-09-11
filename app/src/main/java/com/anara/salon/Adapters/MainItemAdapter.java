@@ -37,7 +37,7 @@ public class MainItemAdapter extends RecyclerView.Adapter<MainItemAdapter.MyView
         final MainItemModel model = arrayList.get(holder.getAdapterPosition());
         holder.MainItemName.setText(model.getItemName());
 
-        SubItemAdapter subItemAdapter = new SubItemAdapter(filterActivity,arrayList.get(0).getSubItems());
+        SubItemAdapter subItemAdapter = new SubItemAdapter(filterActivity,arrayList.get(0).getSubItems(),"Budget");
         subItems.setLayoutManager(new LinearLayoutManager(filterActivity));
         subItems.setAdapter(subItemAdapter);
 
@@ -45,7 +45,7 @@ public class MainItemAdapter extends RecyclerView.Adapter<MainItemAdapter.MyView
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SubItemAdapter subItemAdapter = new SubItemAdapter(filterActivity, model.getSubItems());
+                SubItemAdapter subItemAdapter = new SubItemAdapter(filterActivity, model.getSubItems(), model.getItemName());
                 subItems.setLayoutManager(new LinearLayoutManager(filterActivity));
                 subItems.setAdapter(subItemAdapter);
             }
