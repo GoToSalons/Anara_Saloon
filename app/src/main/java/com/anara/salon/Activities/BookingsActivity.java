@@ -6,6 +6,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.anara.salon.Adapters.BookingAdapter;
@@ -31,6 +33,14 @@ public class BookingsActivity extends AppCompatActivity {
         RecyclerView booking_view = findViewById(R.id.booking_recycler);
 
         PrefManager prefManager = new PrefManager(BookingsActivity.this);
+
+        ImageView imageView = findViewById(R.id.back_button);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
 
         JSONObject jsonObject = new JSONObject();
         try {

@@ -60,14 +60,12 @@ public class SortDialog extends DialogFragment implements View.OnClickListener {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View contentView = inflater.inflate(R.layout.sort_dialog, container, false);
 
-        RelativeLayout popular = contentView.findViewById(R.id.popular);
         RelativeLayout nearMe = contentView.findViewById(R.id.near_me);
         RelativeLayout ratings = contentView.findViewById(R.id.ratings);
         RelativeLayout priceLowToHigh = contentView.findViewById(R.id.low_high);
         RelativeLayout priceHighToLow = contentView.findViewById(R.id.high_low);
         RelativeLayout Dismiss = contentView.findViewById(R.id.dismiss_l);
 
-        popular.setOnClickListener(this);
         nearMe.setOnClickListener(this);
         ratings.setOnClickListener(this);
         priceLowToHigh.setOnClickListener(this);

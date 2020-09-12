@@ -1,10 +1,12 @@
 package com.anara.salon.Activities;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,7 +34,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 public class SelectTimeBarber extends AppCompatActivity implements DatePickerListener, PaymentResultListener {
 
@@ -54,7 +59,13 @@ public class SelectTimeBarber extends AppCompatActivity implements DatePickerLis
         RecyclerView barberRecyclerView = findViewById(R.id.barber_recycler);
 
         checked = new ArrayList<>();
-
+        ImageView imageView = findViewById(R.id.back_button);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
         Bundle args = getIntent().getBundleExtra("checkedServices");
         salonServices = (ArrayList<SalonServices>) args.getSerializable("list");
         salonId = Integer.parseInt(getIntent().getStringExtra("salonId"));
@@ -130,7 +141,24 @@ public class SelectTimeBarber extends AppCompatActivity implements DatePickerLis
             Toast.makeText(this, "Select Barber", Toast.LENGTH_SHORT).show();
         } else {
             date = dateSelected.toLocalDate().toString();
-            getTimeSlots();
+            Calendar c = Calendar .getInstance();
+            @SuppressLint("SimpleDateFormat")
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            String formattedDate = sdf.format(c.getTime());
+            try {
+                Date date1 = sdf.parse(formattedDate);
+                Date date2 = sdf.parse(date);
+                if (date1.compareTo(date2)<0) {
+                    getTimeSlots();
+
+                }else {
+                    Toast.makeText(this, "Invalid Date", Toast.LENGTH_SHORT).show();
+                }
+            }catch (Exception e){
+                Toast.makeText(this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+
+
         }
 
     }

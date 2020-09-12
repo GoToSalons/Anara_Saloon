@@ -11,9 +11,14 @@ import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.anara.salon.Activities.BookingsActivity;
+import com.anara.salon.Apis.Const;
+import com.anara.salon.Apis.RequestResponseManager;
 import com.anara.salon.Dialogs.RateDialog;
 import com.anara.salon.Models.BookingModel;
 import com.anara.salon.R;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -50,7 +55,16 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.MyViewHo
                 RateDialog rateDialog = new RateDialog(activity,bookingModel.getBarber_id());
                 rateDialog.show(activity.getSupportFragmentManager(),"rate");
             }else {
-                holder.RateCancel.setText("Cancel");
+                JSONObject jsonObject = new JSONObject();
+                try {
+                    jsonObject.put("booking_id",bookingModel.getId());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                RequestResponseManager.CancelBooking(jsonObject, Const.Cancel, response -> {
+                    bookingModels.remove(holder.getAdapterPosition());
+                    notifyDataSetChanged();
+                });
             }
         });
         holder.completed.setText(bookingModel.getStatus());

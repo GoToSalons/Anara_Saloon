@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -86,12 +87,18 @@ public class SingleSalonActivity extends AppCompatActivity implements View.OnCli
 
         RelativeLayout book = findViewById(R.id.book);
         book.setOnClickListener(view -> {
-            Intent intent = new Intent(SingleSalonActivity.this, SelectTimeBarber.class);
-            intent.putExtra("salonId", getIntent().getStringExtra("salonId"));
-            Bundle args = new Bundle();
-            args.putSerializable("list", (Serializable) checkedItems);
-            intent.putExtra("checkedServices", args);
-            startActivity(intent);
+
+            if (checkedItems.size()!=0){
+                Intent intent = new Intent(SingleSalonActivity.this, SelectTimeBarber.class);
+                intent.putExtra("salonId", getIntent().getStringExtra("salonId"));
+                Bundle args = new Bundle();
+                args.putSerializable("list", (Serializable) checkedItems);
+                intent.putExtra("checkedServices", args);
+                startActivity(intent);
+            }else {
+                Toast.makeText(this, "Choose Services", Toast.LENGTH_SHORT).show();
+            }
+
         });
 
         findViewById(R.id.back_btn).setOnClickListener(this);

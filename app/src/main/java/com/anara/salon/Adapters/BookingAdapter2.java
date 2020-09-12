@@ -61,7 +61,8 @@ public class BookingAdapter2 extends RecyclerView.Adapter<BookingAdapter2.MyView
                     e.printStackTrace();
                 }
                 RequestResponseManager.CancelBooking(jsonObject, Const.Cancel, response -> {
-                    notifyItemRemoved(position);
+                    bookingModels.remove(holder.getAdapterPosition());
+                    notifyDataSetChanged();
                 });
             }
         });
