@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -58,10 +59,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onResponse(Object response) {
                 BaseRs baseRs = (BaseRs) response;
-                RecyclerView recyclerView = findViewById(R.id.upcoming_bookings);
-                BookingAdapter2 bookingAdapter = new BookingAdapter2(MainActivity.this,baseRs.getBookings());
-                recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-                recyclerView.setAdapter(bookingAdapter);
+                if (baseRs.getBookings()!=null){
+                    RecyclerView recyclerView = findViewById(R.id.upcoming_bookings);
+                    BookingAdapter2 bookingAdapter = new BookingAdapter2(MainActivity.this,baseRs.getBookings());
+                    recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+                    recyclerView.setAdapter(bookingAdapter);
+                }
             }
         });
 
@@ -112,5 +115,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             intent.putExtra("serviceId", "4");
             startActivity(intent);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finishAffinity();
+        finish();
     }
 }

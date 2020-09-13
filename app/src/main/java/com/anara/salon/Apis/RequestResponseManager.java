@@ -215,7 +215,7 @@ public class RequestResponseManager {
             call.enqueue(new Callback<String>() {
                 @Override
                 public void onResponse(@NotNull Call<String> call, @NotNull Response<String> response) {
-                    Log.e("tag", " = =  = call response Bookings = = = " + response.body());
+                    Log.e("tag", " = =  = call response Bookings = = = " + response);
                     Object object = invokeParser(response.body(), requestCode);
                     onResponseListener.onResponse(object);
                 }
