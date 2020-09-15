@@ -5,54 +5,52 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/icon"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-
-        <activity android:name="com.anara.salon.Activities.BookingsActivity"
-            android:theme="@style/NoActionBar">
-
-        </activity>
-        <activity android:name="com.anara.salon.Activities.ProfileActivity"
+        <activity android:name=".Activities.ContactActivity"
+            android:theme="@style/NoActionBar"></activity>
+        <activity android:name=".Activities.PrivacyActivity"
             android:theme="@style/NoActionBar"/>
         <activity
-            android:name="com.anara.salon.Activities.FilterActivity"
+            android:name=".Activities.BookingsActivity"
             android:theme="@style/NoActionBar" />
         <activity
-            android:name="com.anara.salon.Activities.SelectTimeBarber"
+            android:name=".Activities.ProfileActivity"
             android:theme="@style/NoActionBar" />
         <activity
-            android:name="com.anara.salon.Activities.SingleSalonActivity"
+            android:name=".Activities.FilterActivity"
             android:theme="@style/NoActionBar" />
         <activity
-            android:name="com.anara.salon.Activities.ListSalonActivity"
+            android:name=".Activities.SelectTimeBarber"
             android:theme="@style/NoActionBar" />
         <activity
-            android:name="com.anara.salon.Activities.IntroActivity"
-            android:theme="@style/NoActionBar">
-
-        </activity>
-        <activity
-            android:name="com.anara.salon.Activities.OTPActivity"
+            android:name=".Activities.SingleSalonActivity"
             android:theme="@style/NoActionBar" />
         <activity
-            android:name="com.anara.salon.Activities.MobileNumberActivity"
+            android:name=".Activities.ListSalonActivity"
+            android:theme="@style/NoActionBar" />
+        <activity
+            android:name=".Activities.IntroActivity"
+            android:theme="@style/NoActionBar" />
+        <activity
+            android:name=".Activities.OTPActivity"
+            android:theme="@style/NoActionBar" />
+        <activity
+            android:name=".Activities.MobileNumberActivity"
             android:theme="@style/NoActionBar"
-            android:windowSoftInputMode="adjustResize">
-
-        </activity>
+            android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name="com.anara.salon.MainActivity"
-            android:theme="@style/NoActionBar" >
+            android:name=".MainActivity"
+            android:theme="@style/NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -63,7 +61,6 @@
         <meta-data
             android:name="com.razorpay.ApiKey"
             android:value="rzp_test_5GYsNYFZ8ZgiWG" />
-
     </application>
 
 </manifest>

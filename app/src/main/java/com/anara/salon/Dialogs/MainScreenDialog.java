@@ -12,7 +12,12 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.anara.salon.Activities.BookingsActivity;
+import com.anara.salon.Activities.ContactActivity;
+import com.anara.salon.Activities.IntroActivity;
+import com.anara.salon.Activities.MobileNumberActivity;
+import com.anara.salon.Activities.PrivacyActivity;
 import com.anara.salon.Activities.ProfileActivity;
+import com.anara.salon.Helpers.PrefManager;
 import com.anara.salon.MainActivity;
 import com.anara.salon.R;
 
@@ -59,9 +64,15 @@ public class MainScreenDialog extends DialogFragment implements View.OnClickList
         RelativeLayout profile = contentView.findViewById(R.id.profile_layout);
         RelativeLayout appointments = contentView.findViewById(R.id.appointments);
         RelativeLayout dismiss = contentView.findViewById(R.id.dismiss_l);
+        RelativeLayout privacy = contentView.findViewById(R.id.privacy);
+        RelativeLayout customer = contentView.findViewById(R.id.customer);
+        RelativeLayout logOut = contentView.findViewById(R.id.logout);
         appointments.setOnClickListener(this);
         profile.setOnClickListener(this);
         dismiss.setOnClickListener(this);
+        privacy.setOnClickListener(this);
+        logOut.setOnClickListener(this);
+        customer.setOnClickListener(this);
 
         return contentView;
     }
@@ -79,6 +90,21 @@ public class MainScreenDialog extends DialogFragment implements View.OnClickList
             startActivity(intent);
             dismiss();
         }else if (v.getId()==R.id.dismiss_l){
+            dismiss();
+        }else if (v.getId()==R.id.privacy){
+            Intent intent = new Intent(mainActivity, PrivacyActivity.class);
+            startActivity(intent);
+            dismiss();
+        }else if (v.getId()==R.id.customer){
+            Intent intent = new Intent(mainActivity, ContactActivity.class);
+            startActivity(intent);
+            dismiss();
+        }
+        else if (v.getId()==R.id.logout){
+            PrefManager prefManager = new PrefManager(mainActivity);
+            prefManager.setLoggedIn(false);
+            Intent intent = new Intent(mainActivity, IntroActivity.class);
+            startActivity(intent);
             dismiss();
         }
 
