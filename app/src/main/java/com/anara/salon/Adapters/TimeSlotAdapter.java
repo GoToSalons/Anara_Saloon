@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -19,6 +20,7 @@ import com.anara.salon.R;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 public class TimeSlotAdapter extends RecyclerView.Adapter<TimeSlotAdapter.MyViewHolder> {
@@ -26,10 +28,12 @@ public class TimeSlotAdapter extends RecyclerView.Adapter<TimeSlotAdapter.MyView
     ArrayList<TimeModel> timeModels;
     SelectTimeBarber selectTimeBarber;
     int selectedPosition = -1;
+    String date;
 
-    public TimeSlotAdapter(ArrayList<TimeModel> timeModels, SelectTimeBarber selectTimeBarber) {
+    public TimeSlotAdapter(ArrayList<TimeModel> timeModels, SelectTimeBarber selectTimeBarber, String date) {
         this.timeModels = timeModels;
         this.selectTimeBarber = selectTimeBarber;
+        this.date =  date;
     }
 
     @NonNull
@@ -44,12 +48,12 @@ public class TimeSlotAdapter extends RecyclerView.Adapter<TimeSlotAdapter.MyView
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         TimeModel timeModel = timeModels.get(holder.getAdapterPosition());
-
+        Date fromTime = null;
         try {
 
             SimpleDateFormat oldSimpleDateFormat = new SimpleDateFormat("HH:mm");
             SimpleDateFormat newSimpleDateFormat = new SimpleDateFormat("hh:mm a");
-            Date fromTime = oldSimpleDateFormat.parse(timeModel.getStart_time());
+            fromTime = oldSimpleDateFormat.parse(timeModel.getStart_time());
             Date toTime = oldSimpleDateFormat.parse(timeModel.getEnd_time());
             holder.timeFrom.setText(newSimpleDateFormat.format(fromTime));
             holder.timeTo.setText(newSimpleDateFormat.format(toTime));
@@ -63,11 +67,33 @@ public class TimeSlotAdapter extends RecyclerView.Adapter<TimeSlotAdapter.MyView
             timeModel.setChecked(false);
         }
 
+        Date finalFromTime = fromTime;
         holder.itemView.setOnClickListener(view -> {
 
-            selectedPosition = holder.getAdapterPosition();
-            notifyDataSetChanged();
+            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+            Date currentTime = Calendar.getInstance().getTime();
 
+            Calendar c = Calendar.getInstance();
+            @SuppressLint("SimpleDateFormat")
+            SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd");
+            String formattedDate = sdf2.format(c.getTime());
+            try {
+                Date date1 = sdf2.parse(formattedDate);
+                Date date2 = sdf2.parse(date);
+                if (date1.compareTo(date2) == 0) {
+                    if (sdf.format(currentTime).compareTo(sdf.format(finalFromTime)) > 0) {
+                        Toast.makeText(selectTimeBarber, "Time Gone" + sdf.format(currentTime) + " " + sdf.format(finalFromTime), Toast.LENGTH_SHORT).show();
+                    } else {
+                        selectedPosition = holder.getAdapterPosition();
+                        notifyDataSetChanged();
+                    }
+                }else {
+                    selectedPosition = holder.getAdapterPosition();
+                    notifyDataSetChanged();
+                }
+            } catch (Exception e) {
+                Toast.makeText(selectTimeBarber, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
         });
 
         if (timeModel.isChecked()) {

@@ -25,14 +25,20 @@ public class BarberModel implements Serializable, Parcelable {
     String id;
     String profile_image;
     String name;
+    String mobile;
     boolean isChecked;
+    int exp_year;
+    int exp_month;
 
     @RequiresApi(api = Build.VERSION_CODES.Q)
     protected BarberModel(Parcel in) {
         id = in.readString();
         profile_image = in.readString();
         name = in.readString();
+        mobile = in.readString();
         isChecked = in.readBoolean();
+        exp_year = in.readInt();
+        exp_month = in.readInt();
     }
 
     @Override
@@ -47,7 +53,10 @@ public class BarberModel implements Serializable, Parcelable {
         parcel.writeString(id);
         parcel.writeString(profile_image);
         parcel.writeString(name);
+        parcel.writeString(mobile);
         parcel.writeBoolean(isChecked);
+        parcel.writeInt(exp_year);
+        parcel.writeInt(exp_month);
     }
 
     public String getId() {
@@ -80,5 +89,29 @@ public class BarberModel implements Serializable, Parcelable {
 
     public void setChecked(boolean checked) {
         isChecked = checked;
+    }
+
+    public int getExp_year() {
+        return exp_year;
+    }
+
+    public void setExp_year(int exp_year) {
+        this.exp_year = exp_year;
+    }
+
+    public int getExp_month() {
+        return exp_month;
+    }
+
+    public void setExp_month(int exp_month) {
+        this.exp_month = exp_month;
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
     }
 }

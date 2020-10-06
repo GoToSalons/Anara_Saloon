@@ -47,6 +47,9 @@ public class ChooseBarbersAdapter extends RecyclerView.Adapter<ChooseBarbersAdap
         Glide.with(holder.barberImage).load(barberModel.getProfile_image()).transform(new CenterCrop(), new RoundedCorners(25))
                 .into(holder.barberImage);
 
+        holder.barberExperience.setText("Exp: "+barberModel.getExp_year()+"Y "+barberModel.getExp_month()+"M");
+        holder.mobile.setText("Mobile:\n"+barberModel.getMobile());
+
         if (selectedPosition == holder.getAdapterPosition()) {
             barberModel.setChecked(true);
         } else {
@@ -79,7 +82,7 @@ public class ChooseBarbersAdapter extends RecyclerView.Adapter<ChooseBarbersAdap
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         ImageView barberImage;
-        TextView barberName;
+        TextView barberName,barberExperience,mobile;
         RelativeLayout Checked;
 
         public MyViewHolder(@NonNull View itemView) {
@@ -87,6 +90,8 @@ public class ChooseBarbersAdapter extends RecyclerView.Adapter<ChooseBarbersAdap
             barberImage = itemView.findViewById(R.id.barber_image);
             barberName = itemView.findViewById(R.id.barber_name);
             Checked = itemView.findViewById(R.id.checked);
+            barberExperience = itemView.findViewById(R.id.experience);
+            mobile = itemView.findViewById(R.id.mobile);
         }
     }
 }

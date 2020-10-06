@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -120,6 +121,7 @@ public class ListSalonActivity extends AppCompatActivity implements View.OnClick
                 if (response != null) {
                     BaseRs baseRs = (BaseRs) response;
                     salonModels = baseRs.getSaloons();
+
                     SalonListAdapter salonListAdapter = new SalonListAdapter(ListSalonActivity.this, baseRs.getSaloons());
                     recyclerView.setAdapter(salonListAdapter);
                 }

@@ -7,11 +7,11 @@ import java.io.Serializable;
 
 public class SalonModel implements Serializable, Parcelable {
 
-    String saloon_id;
-    String saloon_name;
+    String salon_id;
+    String salon_name;
     String open_time;
     String close_time;
-    String saloon_type;
+    String salon_type;
     String street_address;
     String image;
     String price;
@@ -25,11 +25,11 @@ public class SalonModel implements Serializable, Parcelable {
     Float ratings;
 
     protected SalonModel(Parcel in) {
-        saloon_id = in.readString();
-        saloon_name = in.readString();
+        salon_id = in.readString();
+        salon_name = in.readString();
         open_time = in.readString();
         close_time = in.readString();
-        saloon_type = in.readString();
+        salon_type = in.readString();
         street_address = in.readString();
         image = in.readString();
         price = in.readString();
@@ -45,11 +45,11 @@ public class SalonModel implements Serializable, Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(saloon_id);
-        dest.writeString(saloon_name);
+        dest.writeString(salon_id);
+        dest.writeString(salon_name);
         dest.writeString(open_time);
         dest.writeString(close_time);
-        dest.writeString(saloon_type);
+        dest.writeString(salon_type);
         dest.writeString(street_address);
         dest.writeString(image);
         dest.writeString(price);
@@ -141,11 +141,11 @@ public class SalonModel implements Serializable, Parcelable {
     }
 
     public String getSaloon_id() {
-        return saloon_id;
+        return salon_id;
     }
 
     public void setSaloon_id(String saloon_id) {
-        this.saloon_id = saloon_id;
+        this.salon_id = saloon_id;
     }
 
     public void setStreet_address(String street_address) {
@@ -153,11 +153,11 @@ public class SalonModel implements Serializable, Parcelable {
     }
 
     public String getSaloon_name() {
-        return saloon_name;
+        return salon_name;
     }
 
     public void setSaloon_name(String saloon_name) {
-        this.saloon_name = saloon_name;
+        this.salon_name = saloon_name;
     }
 
     public String getOpen_time() {
@@ -177,11 +177,11 @@ public class SalonModel implements Serializable, Parcelable {
     }
 
     public String getSaloon_type() {
-        return saloon_type;
+        return salon_type;
     }
 
     public void setSaloon_type(String saloon_type) {
-        this.saloon_type = saloon_type;
+        this.salon_type = saloon_type;
     }
 
     public String getImage() {

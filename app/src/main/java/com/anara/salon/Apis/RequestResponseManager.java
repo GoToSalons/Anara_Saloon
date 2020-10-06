@@ -73,7 +73,7 @@ public class RequestResponseManager {
             @Override
             public void onResponse(@NotNull Call<String> call, @NotNull Response<String> response) {
 
-                Log.e("tag", " = =  = call response = = = " + response.body());
+                Log.e("tag", " = =  = call response list= = = " + response.body());
                 Object object = invokeParser(response.body(), requestCode);
                 onResponseListener.onResponse(object);
 
@@ -95,7 +95,7 @@ public class RequestResponseManager {
             call.enqueue(new Callback<String>() {
                 @Override
                 public void onResponse(@NotNull Call<String> call, @NotNull Response<String> response) {
-                    Log.e("tag", " = =  = call response = = = " + response.body());
+                    Log.e("tag", " = =  = call response Service= = = " + response.body());
                     Object object = invokeParser(response.body(), requestCode);
                     onResponseListener.onResponse(object);
                 }
@@ -143,7 +143,7 @@ public class RequestResponseManager {
             call.enqueue(new Callback<String>() {
                 @Override
                 public void onResponse(@NotNull Call<String> call, @NotNull Response<String> response) {
-                    Log.e("tag", " = =  = call response = = = " + response.body());
+                    Log.e("tag", " = =  = call response Barber= = = " + response.body());
                     Object object = invokeParser(response.body(), requestCode);
                     onResponseListener.onResponse(object);
                 }

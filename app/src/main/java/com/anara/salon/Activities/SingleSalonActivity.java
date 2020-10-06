@@ -110,47 +110,50 @@ public class SingleSalonActivity extends AppCompatActivity implements View.OnCli
     private void getSalonDetails() {
         JSONObject parameters = new JSONObject();
         try {
-            parameters.put("saloon_id", getIntent().getStringExtra("salonId"));
+            parameters.put("salon_id", getIntent().getStringExtra("salonId"));
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        RequestResponseManager.getSalonDetails(parameters, Const.Get_Salon_Details_Request, response -> {
-            if (response != null) {
-                BaseRs baseRs = (BaseRs) response;
-                salonModel = baseRs.getSalonModel();
-                ServicesAdapter servicesAdapter = new ServicesAdapter(baseRs.getSaloon_services(),SingleSalonActivity.this);
-                recyclerView.setLayoutManager(new LinearLayoutManager(SingleSalonActivity.this, LinearLayoutManager.HORIZONTAL, false));
-                recyclerView.setAdapter(servicesAdapter);
+        RequestResponseManager.getSalonDetails(parameters, Const.Get_Salon_Details_Request, new RequestResponseManager.OnResponseListener() {
+            @Override
+            public void onResponse(Object response) {
+                if (response != null) {
+                    BaseRs baseRs = (BaseRs) response;
+                    salonModel = baseRs.getSalonModel();
+                    ServicesAdapter servicesAdapter = new ServicesAdapter(baseRs.getSaloon_services(), SingleSalonActivity.this);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(SingleSalonActivity.this, LinearLayoutManager.HORIZONTAL, false));
+                    recyclerView.setAdapter(servicesAdapter);
 
-                if (baseRs.getSaloon_gallery().size() > 0) {
-                    addSlider(baseRs.getSaloon_gallery());
-                }
+                    if (baseRs.getSaloon_gallery().size() > 0) {
+                        SingleSalonActivity.this.addSlider(baseRs.getSaloon_gallery());
+                    }
 
-                salon_name.setText(salonModel.getSaloon_name());
-                address.setText(salonModel.getStreet_address());
-                time.setText(salonModel.getOpen_time() + " - " + salonModel.getClose_time());
-                salon_type.setText(salonModel.getSaloon_type());
-                mobile_number.setText(salonModel.getContact_no());
-                rating.setRating(round(salonModel.getRatings(),1));
-                rating_text.setText(round(salonModel.getRatings(),1)+"");
+                    salon_name.setText(salonModel.getSaloon_name());
+                    address.setText(salonModel.getStreet_address());
+                    time.setText(salonModel.getOpen_time() + " - " + salonModel.getClose_time());
+                    salon_type.setText(salonModel.getSaloon_type());
+                    mobile_number.setText(salonModel.getContact_no());
+                    rating.setRating(round(salonModel.getRatings(), 1));
+                    rating_text.setText(round(salonModel.getRatings(), 1) + "");
 
-                if (salonModel.getInstagram().equals("")) {
-                    instagram.setVisibility(View.GONE);
-                } else {
-                    instagram.setVisibility(View.VISIBLE);
-                }
+                    if (salonModel.getInstagram().equals("")) {
+                        instagram.setVisibility(View.GONE);
+                    } else {
+                        instagram.setVisibility(View.VISIBLE);
+                    }
 
-                if (salonModel.getFacebook().equals("")) {
-                    facebook.setVisibility(View.GONE);
-                } else {
-                    facebook.setVisibility(View.VISIBLE);
-                }
+                    if (salonModel.getFacebook().equals("")) {
+                        facebook.setVisibility(View.GONE);
+                    } else {
+                        facebook.setVisibility(View.VISIBLE);
+                    }
 
-                if (salonModel.getTwitter().equals("")) {
-                    twitter.setVisibility(View.GONE);
-                } else {
-                    twitter.setVisibility(View.VISIBLE);
+                    if (salonModel.getTwitter().equals("")) {
+                        twitter.setVisibility(View.GONE);
+                    } else {
+                        twitter.setVisibility(View.VISIBLE);
+                    }
                 }
             }
         });
@@ -176,8 +179,13 @@ public class SingleSalonActivity extends AppCompatActivity implements View.OnCli
 
     private void openSocialProfile(String url) {
         if (!url.equals("")) {
-            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-            startActivity(intent);
+            try {
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                startActivity(intent);
+            }catch (Exception e){
+                Toast.makeText(this, "Invalid URL by Salon", Toast.LENGTH_SHORT).show();
+            }
+
         }
     }
 

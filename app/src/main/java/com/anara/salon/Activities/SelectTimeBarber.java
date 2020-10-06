@@ -47,7 +47,7 @@ public class SelectTimeBarber extends AppCompatActivity implements DatePickerLis
     ArrayList<SalonServices> salonServices;
     String date;
     RecyclerView timeRecyclerView;
-    public String startTime, endTime;
+    public String startTime = "", endTime = "";
     PrefManager prefManager;
 
     @Override
@@ -74,7 +74,7 @@ public class SelectTimeBarber extends AppCompatActivity implements DatePickerLis
 
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("saloon_id", salonId);
+            jsonObject.put("salon_id", salonId);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -83,6 +83,7 @@ public class SelectTimeBarber extends AppCompatActivity implements DatePickerLis
             @Override
             public void onResponse(Object response) {
                 BaseRs baseRs = (BaseRs) response;
+
                 ChooseBarbersAdapter chooseBarbersAdapter = new ChooseBarbersAdapter(baseRs.getBarbers(), SelectTimeBarber.this);
                 barberRecyclerView.setLayoutManager(new LinearLayoutManager(SelectTimeBarber.this, LinearLayoutManager.HORIZONTAL, false));
                 barberRecyclerView.setAdapter(chooseBarbersAdapter);
@@ -97,19 +98,16 @@ public class SelectTimeBarber extends AppCompatActivity implements DatePickerLis
                 .setTodayDateTextColor(getResources().getColor(R.color.colorWhite))
                 .setBackgroundColor(getResources().getColor(R.color.colorDarkGrey));
 
+
         picker.setListener(this).init();
 
-        ArrayList<TimeModel> timeModels = new ArrayList<>();
-
-
-        TimeSlotAdapter timeSlotAdapter = new TimeSlotAdapter(timeModels, SelectTimeBarber.this);
-
-        timeRecyclerView.setLayoutManager(new LinearLayoutManager(SelectTimeBarber.this, LinearLayoutManager.HORIZONTAL, false));
-        timeRecyclerView.setAdapter(timeSlotAdapter);
-
-
-        findViewById(R.id.next).setOnClickListener(view -> startPayment());
-
+        findViewById(R.id.next).setOnClickListener(view -> {
+            if (!startTime.equals("") || !endTime.equals("")) {
+                startPayment();
+            } else {
+                Toast.makeText(this, "Select Time Slot", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     public void startPayment() {
@@ -141,26 +139,23 @@ public class SelectTimeBarber extends AppCompatActivity implements DatePickerLis
             Toast.makeText(this, "Select Barber", Toast.LENGTH_SHORT).show();
         } else {
             date = dateSelected.toLocalDate().toString();
-            Calendar c = Calendar .getInstance();
+            Calendar c = Calendar.getInstance();
             @SuppressLint("SimpleDateFormat")
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             String formattedDate = sdf.format(c.getTime());
             try {
                 Date date1 = sdf.parse(formattedDate);
                 Date date2 = sdf.parse(date);
-                if (date1.compareTo(date2)<0) {
+                if (date1.compareTo(date2) <= 0) {
                     getTimeSlots();
 
-                }else {
+                } else {
                     Toast.makeText(this, "Invalid Date", Toast.LENGTH_SHORT).show();
                 }
-            }catch (Exception e){
-                Toast.makeText(this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+            } catch (Exception e) {
+                Toast.makeText(this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
-
-
         }
-
     }
 
     public void getTimeSlots() {
@@ -183,13 +178,13 @@ public class SelectTimeBarber extends AppCompatActivity implements DatePickerLis
             @Override
             public void onResponse(Object response) {
                 BaseRs baseRs = (BaseRs) response;
-                if (baseRs.getTimeSlots()!=null && baseRs.getTimeSlots().size()!=0){
-                    TimeSlotAdapter timeSlotAdapter = new TimeSlotAdapter(baseRs.getTimeSlots(), SelectTimeBarber.this);
+                if (baseRs.getTimeSlots() != null && baseRs.getTimeSlots().size() != 0) {
+                    TimeSlotAdapter timeSlotAdapter = new TimeSlotAdapter(baseRs.getTimeSlots(), SelectTimeBarber.this,date);
                     timeRecyclerView.setLayoutManager(new LinearLayoutManager(SelectTimeBarber.this, LinearLayoutManager.HORIZONTAL, false));
                     timeRecyclerView.setAdapter(timeSlotAdapter);
-                }else {
+                } else {
                     ArrayList<TimeModel> timeModels = new ArrayList<>();
-                    TimeSlotAdapter timeSlotAdapter = new TimeSlotAdapter(timeModels, SelectTimeBarber.this);
+                    TimeSlotAdapter timeSlotAdapter = new TimeSlotAdapter(timeModels, SelectTimeBarber.this,date);
                     timeRecyclerView.setLayoutManager(new LinearLayoutManager(SelectTimeBarber.this, LinearLayoutManager.HORIZONTAL, false));
                     timeRecyclerView.setAdapter(timeSlotAdapter);
                     Toast.makeText(SelectTimeBarber.this, "No Time Slots Available", Toast.LENGTH_SHORT).show();
@@ -211,11 +206,11 @@ public class SelectTimeBarber extends AppCompatActivity implements DatePickerLis
                 jsonArray.put(Integer.parseInt(salonServices.getService_id()));
             }
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("saloon_id", salonId);
+            jsonObject.put("salon_id", salonId);
             jsonObject.put("barber_id", barberId);
             jsonObject.put("services", jsonArray);
             jsonObject.put("book_date", date);
-            jsonObject.put("customer_id", prefManager.getInteger("customerId",-1));
+            jsonObject.put("customer_id", prefManager.getInteger("customerId", -1));
             JSONObject object = new JSONObject();
             object.put("start_time", startTime);
             object.put("end_time", endTime);

@@ -20,16 +20,16 @@ public class BaseRs {
     @SerializedName("message")
     public String message;
 
-    @SerializedName("saloons")
+    @SerializedName("salons")
     public ArrayList<SalonModel> saloons;
 
-    @SerializedName("saloon")
+    @SerializedName("salon")
     public SalonModel salonModel;
 
-    @SerializedName("saloon_services")
+    @SerializedName("salon_services")
     ArrayList<SalonServices> saloon_services;
 
-    @SerializedName("saloon_gallery")
+    @SerializedName("salon_gallery")
     public ArrayList<String> saloon_gallery;
 
     @SerializedName("barbers")
