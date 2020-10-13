@@ -1,6 +1,7 @@
 package com.anara.salon.Activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -32,6 +33,11 @@ public class FilterActivity extends AppCompatActivity {
     public JSONArray validFor;
     public JSONArray Rating;
     public JSONArray priceRange;
+
+
+    public SharedPreferences budget;
+    public SharedPreferences rating;
+    public SharedPreferences validFors;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +73,11 @@ public class FilterActivity extends AppCompatActivity {
                 Intent intent = new Intent(FilterActivity.this,ListSalonActivity.class);
                 intent.putExtra("mode", 1);
                 intent.putExtra("serviceId",  getIntent().getStringExtra("service_id"));
+                budget.edit().clear().apply();
+                rating.edit().clear().apply();
+                validFors.edit().clear().apply();
+
+
                 startActivity(intent);
             }
         });

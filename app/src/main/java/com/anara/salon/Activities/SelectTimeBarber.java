@@ -45,7 +45,7 @@ public class SelectTimeBarber extends AppCompatActivity implements DatePickerLis
     public int barberId = -1;
     int salonId;
     ArrayList<SalonServices> salonServices;
-    String date;
+    public String date;
     RecyclerView timeRecyclerView;
     public String startTime = "", endTime = "";
     PrefManager prefManager;
@@ -121,11 +121,13 @@ public class SelectTimeBarber extends AppCompatActivity implements DatePickerLis
             options.put("currency", "INR");
 
             double total = 0.0;
+            double extraPer;
             for (SalonServices salonServices : salonServices) {
                 total = total + Double.parseDouble(salonServices.getPrice());
-            }
 
-            options.put("amount", total * 100);
+            }
+            extraPer = (total/100.0f)*10;
+            options.put("amount", (extraPer+total) * 100);
             co.open(activity, options);
 
         } catch (Exception e) {

@@ -188,10 +188,11 @@ public class SingleSalonActivity extends AppCompatActivity implements View.OnCli
 
         }
     }
-
     private void addSlider(ArrayList<String> imageUrl) {
         SliderAdapter sliderAdapter = new SliderAdapter(imageUrl,SingleSalonActivity.this);
         enchantedViewPager.setAdapter(sliderAdapter);
+        enchantedViewPager.setOffscreenPageLimit(1);
+        enchantedViewPager.setClipToPadding(false);
         enchantedViewPager.setCurrentItem(0);
 
         if (sliderAdapter.getCount() > 1) {

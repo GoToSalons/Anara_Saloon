@@ -13,7 +13,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
-        android:layout_marginStart="10dp">
+        android:layout_marginStart="10dp"
+        android:gravity="center">
 
         <TextView
             android:id="@+id/date"
@@ -52,10 +53,10 @@
 
     <RelativeLayout
         android:id="@+id/rl2"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_toEndOf="@id/view">
+        android:layout_toEndOf="@id/view"
+        android:layout_toStartOf="@+id/rl3">
 
         <TextView
             android:id="@+id/service_name"
@@ -63,7 +64,8 @@
             android:layout_height="wrap_content"
             android:text="Hair Cut"
             android:textColor="@color/colorBlack"
-            android:textSize="22sp"/>
+            android:textSize="22sp"
+            android:gravity="center"/>
 
         <TextView
             android:id="@+id/salon_name"
@@ -71,16 +73,22 @@
             android:layout_height="wrap_content"
             android:text="Enrich Salon"
             android:textColor="@color/colorBlack"
-            android:layout_below="@+id/service_name"/>
+            android:layout_below="@+id/service_name"
+            android:gravity="center"/>
 
     </RelativeLayout>
+
+   <RelativeLayout
+        android:id="@+id/rl3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true">
 
     <TextView
         android:id="@+id/completed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="upcoming"
-        android:layout_alignParentEnd="true"
         android:textColor="@color/colorPrimary"
         android:layout_margin="8dp"/>
 
@@ -90,7 +98,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/completed"
         android:background="@drawable/button_bg"
-        android:layout_alignParentEnd="true"
         android:layout_margin="8dp"
         >
 
@@ -106,6 +113,8 @@
             android:text="CANCEL"
             android:textColor="@color/colorWhite"
             android:textStyle="bold" />
+
+    </RelativeLayout>
 
     </RelativeLayout>
 

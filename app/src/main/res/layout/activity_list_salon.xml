@@ -10,7 +10,7 @@
     <FrameLayout
         android:id="@+id/frame_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
 
     <RelativeLayout
         android:id="@+id/rl1"
@@ -39,12 +39,30 @@
 
     </RelativeLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/salon_list"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/rl3"
-        android:layout_below="@+id/rl1" />
+        android:layout_below="@+id/rl1">
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/salon_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+
+        <TextView
+            android:id="@+id/na"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="No Salons Available"
+            android:textSize="16sp"
+            android:textColor="@color/colorPrimary"
+            android:visibility="gone"/>
+
+    </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/rl3"
@@ -60,8 +78,8 @@
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             android:layout_toStartOf="@+id/view"
-            android:orientation="vertical"
-            android:gravity="center">
+            android:gravity="center"
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -92,8 +110,8 @@
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             android:layout_toEndOf="@+id/view"
-            android:orientation="vertical"
-            android:gravity="center">
+            android:gravity="center"
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"

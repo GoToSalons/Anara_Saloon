@@ -60,6 +60,12 @@ public class ChooseBarbersAdapter extends RecyclerView.Adapter<ChooseBarbersAdap
 
             selectedPosition = holder.getAdapterPosition();
             notifyDataSetChanged();
+            if (!selectTimeBarber.date.equals("")){
+                selectTimeBarber.getTimeSlots();
+            }else {
+                selectTimeBarber.getTimeSlots();
+            }
+
 
         });
 

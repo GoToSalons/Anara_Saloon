@@ -1,6 +1,7 @@
 package com.anara.salon.Adapters;
 
 import android.annotation.SuppressLint;
+import android.os.Parcelable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -28,12 +29,12 @@ public class SliderAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, final int position) {
         View imageLayout = singleSalonActivity.getLayoutInflater().inflate(R.layout.slider_adapter, container, false);
-        assert imageLayout != null;
+//        assert imageLayout != null;
         ImageView imageView = imageLayout.findViewById(R.id.imageView_slider_adapter);
 
         Glide.with(singleSalonActivity).load(mSliderItems.get(position)).centerCrop().into(imageView);
 
-        container.addView(imageLayout, 0);
+        container.addView(imageLayout);
         return imageLayout;
     }
 
@@ -43,7 +44,18 @@ public class SliderAdapter extends PagerAdapter {
     }
 
     @Override
-    public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
-        return view.equals(object);
+    public void destroyItem(ViewGroup collection, int position, @NonNull Object view) {
+        collection.removeView((View) view);
     }
+
+    @Override
+    public boolean isViewFromObject(View arg0, Object arg1) {
+        return arg0 == ((View) arg1);
+
+    }
+    @Override
+    public Parcelable saveState() {
+        return null;
+    }
+
 }

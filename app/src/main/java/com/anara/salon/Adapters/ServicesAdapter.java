@@ -37,9 +37,9 @@ public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.MyView
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         SalonServices servicesModel = servicesModels.get(holder.getAdapterPosition());
-
         holder.serviceName.setText(servicesModel.getName());
-        holder.service_price.setText("₹ " + servicesModel.getPrice());
+        double res = (Double.parseDouble(servicesModel.getPrice()) / 100.0f) * 10;
+        holder.service_price.setText("₹ " + String.format("%.2f", (Double.parseDouble(servicesModel.getPrice()) + res)));
 
         switch (servicesModel.getMain_service_id()) {
             case 1:

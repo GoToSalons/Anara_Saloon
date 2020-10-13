@@ -1,5 +1,7 @@
 package com.anara.salon.Adapters;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,16 +42,48 @@ public class SubItemAdapter extends RecyclerView.Adapter<SubItemAdapter.MyViewHo
         holder.checkBox.setOnCheckedChangeListener(null);
         holder.checkBox.setChecked(subItem.isChecked());
 
+        filterActivity.budget = filterActivity.getSharedPreferences("budget", Context.MODE_PRIVATE);
+        filterActivity.rating = filterActivity.getSharedPreferences("rating", Context.MODE_PRIVATE);
+        filterActivity.validFors = filterActivity.getSharedPreferences("validFor", Context.MODE_PRIVATE);
+
+
+        switch (mainItem) {
+            case "Budget":
+                holder.checkBox.setChecked(filterActivity.budget.getBoolean(position+"", false));
+                break;
+            case "Rating":
+                holder.checkBox.setChecked(filterActivity.rating.getBoolean(position+"", false));
+                break;
+            case "Valid For":
+                holder.checkBox.setChecked(filterActivity.validFors.getBoolean(position+"", false));
+                break;
+        }
+
         holder.checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
             switch (mainItem) {
                 case "Budget":
-                    filterActivity.priceRange.put(subItem.getName());
+                    if (filterActivity.budget.getBoolean(position+"", false)){
+                        filterActivity.budget.edit().putBoolean(position+"",false).apply();
+                    }else {
+                        filterActivity.budget.edit().putBoolean(position+"",true).apply();
+                        filterActivity.priceRange.put(subItem.getName());
+                    }
                     break;
                 case "Rating":
-                    filterActivity.Rating.put(subItem.getName());
+                    if (filterActivity.rating.getBoolean(position+"", false)) {
+                        filterActivity.rating.edit().putBoolean(position + "", false).apply();
+                    }else {
+                        filterActivity.rating.edit().putBoolean(position + "", true).apply();
+                        filterActivity.Rating.put(subItem.getName());
+                    }
                     break;
                 case "Valid For":
-                    filterActivity.validFor.put(subItem.getName());
+                    if (filterActivity.validFors.getBoolean(position+"", false)) {
+                        filterActivity.validFors.edit().putBoolean(position + "", false).apply();
+                    }else {
+                        filterActivity.validFors.edit().putBoolean(position + "", true).apply();
+                        filterActivity.validFor.put(subItem.getName());
+                    }
                     break;
             }
             subItem.setChecked(isChecked);

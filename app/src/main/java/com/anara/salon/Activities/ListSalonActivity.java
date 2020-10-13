@@ -44,6 +44,7 @@ public class ListSalonActivity extends AppCompatActivity implements View.OnClick
     public JSONArray validFor;
     public JSONArray Rating;
     public JSONArray priceRange;
+    TextView notAvailable;
     int distancePreference = 10000;
 
     ArrayList<SalonModel> salonModels;
@@ -63,6 +64,7 @@ public class ListSalonActivity extends AppCompatActivity implements View.OnClick
         sortLayout.setOnClickListener(this);
         filterLayout.setOnClickListener(this);
         backButton.setOnClickListener(this);
+        notAvailable = findViewById(R.id.na);
         recyclerView.setLayoutManager(new LinearLayoutManager(ListSalonActivity.this));
 
         validFor = new JSONArray();
@@ -116,12 +118,15 @@ public class ListSalonActivity extends AppCompatActivity implements View.OnClick
                 e.printStackTrace();
             }
 
-
             RequestResponseManager.getSalon(parameters, Const.Get_Salon_Request, response -> {
                 if (response != null) {
                     BaseRs baseRs = (BaseRs) response;
                     salonModels = baseRs.getSaloons();
-
+                    if (salonModels.size()<=0){
+                        notAvailable.setVisibility(View.VISIBLE);
+                    }else {
+                        notAvailable.setVisibility(View.GONE);
+                    }
                     SalonListAdapter salonListAdapter = new SalonListAdapter(ListSalonActivity.this, baseRs.getSaloons());
                     recyclerView.setAdapter(salonListAdapter);
                 }
@@ -140,10 +145,14 @@ public class ListSalonActivity extends AppCompatActivity implements View.OnClick
     public void sortByNearByMe() {
         if (salonModels != null && salonModels.size() > 1) {
             Collections.sort(salonModels, (salonModel, t1) -> {
-                if (!salonModel.getLatitude().equals("") && !salonModel.getLogitude().equals("") && !t1.getLogitude().equals("") && !t1.getLatitude().equals("")) {
-                    Float distance1 = checkNearByMe(Double.parseDouble(salonModel.getLatitude()), Double.parseDouble(salonModel.getLogitude()));
-                    Float distance2 = checkNearByMe(Double.parseDouble(t1.getLatitude()), Double.parseDouble(t1.getLogitude()));
-                    return distance1.compareTo(distance2);
+                try {
+                    if (!salonModel.getLatitude().equals("") && !salonModel.getLogitude().equals("") && !t1.getLogitude().equals("") && !t1.getLatitude().equals("")) {
+                        Float distance1 = checkNearByMe(Double.parseDouble(salonModel.getLatitude()), Double.parseDouble(salonModel.getLogitude()));
+                        Float distance2 = checkNearByMe(Double.parseDouble(t1.getLatitude()), Double.parseDouble(t1.getLogitude()));
+                        return distance1.compareTo(distance2);
+                    }
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
                 }
                 return 0;
             });
