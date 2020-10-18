@@ -50,11 +50,8 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             name.setText(prefManager.getString("customerName","User"));
             mobileNumber.setText(prefManager.getString("customerMobileNumber","Mobile"));
             email.setText(prefManager.getString("customerEmail","Email"));
-            name.setEnabled(false);
             mobileNumber.setEnabled(false);
-            email.setEnabled(false);
             countryCodePicker.setVisibility(View.GONE);
-            save.setVisibility(View.GONE);
         }
 
 
@@ -67,33 +64,66 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         if (view.getId()==R.id.back_button){
             onBackPressed();
         }else if(view.getId()==R.id.save) {
-            try {
-                JSONObject parameters = new JSONObject();
-                parameters.put("name", name.getText().toString());
-                parameters.put("email", email.getText().toString());
-                parameters.put("mobile", countryCodePicker.getFullNumberWithPlus());
-                RequestResponseManager.sendProfileDetails(parameters, Const.Set_Profile_details, new RequestResponseManager.OnResponseListener() {
-                    @Override
-                    public void onResponse(Object response) {
-                        BaseRs baseRs = (BaseRs) response;
-                        if (baseRs.getStatus().equals("success")){
-                            Toast.makeText(ProfileActivity.this, "Profile Updated", Toast.LENGTH_SHORT).show();
-                            PrefManager prefManager = new PrefManager(ProfileActivity.this);
-                            prefManager.setString("customerEmail",((BaseRs) response).getUserModel().getEmail());
-                            prefManager.setString("customerName",((BaseRs) response).getUserModel().getName());
-                            prefManager.setString("customerMobileNumber",((BaseRs) response).getUserModel().getMobile());
-                            prefManager.setInteger("customerId",((BaseRs) response).getUserModel().getId());
-                            prefManager.setLoggedIn(true);
-                            Intent intent = new Intent(ProfileActivity.this, MainActivity.class);
-                            startActivity(intent);
-                        }else {
-                            Toast.makeText(ProfileActivity.this, "Error Occurred", Toast.LENGTH_SHORT).show();
-                        }
+            if (getIntent().getStringExtra("mode").equals("register")) {
+                try {
+                    JSONObject parameters = new JSONObject();
+                    parameters.put("name", name.getText().toString());
+                    parameters.put("email", email.getText().toString());
+                    parameters.put("mobile", countryCodePicker.getFullNumberWithPlus());
+                    RequestResponseManager.sendProfileDetails(parameters, Const.Set_Profile_details, new RequestResponseManager.OnResponseListener() {
+                        @Override
+                        public void onResponse(Object response) {
+                            BaseRs baseRs = (BaseRs) response;
+                            if (baseRs.getStatus().equals("success")) {
+                                Toast.makeText(ProfileActivity.this, "Profile Updated", Toast.LENGTH_SHORT).show();
+                                PrefManager prefManager = new PrefManager(ProfileActivity.this);
+                                prefManager.setString("customerEmail", ((BaseRs) response).getUserModel().getEmail());
+                                prefManager.setString("customerName", ((BaseRs) response).getUserModel().getName());
+                                prefManager.setString("customerMobileNumber", ((BaseRs) response).getUserModel().getMobile());
+                                prefManager.setInteger("customerId", ((BaseRs) response).getUserModel().getId());
+                                prefManager.setLoggedIn(true);
+                                Intent intent = new Intent(ProfileActivity.this, MainActivity.class);
+                                startActivity(intent);
+                            } else {
+                                Toast.makeText(ProfileActivity.this, "Error Occurred", Toast.LENGTH_SHORT).show();
+                            }
 
-                    }
-                });
-            } catch (JSONException e) {
-                e.printStackTrace();
+                        }
+                    });
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }else {
+                try {
+                    PrefManager prefManager = new PrefManager(ProfileActivity.this);
+                    JSONObject parameters = new JSONObject();
+                    parameters.put("customer_id",prefManager.getInteger("customerId",0));
+                    parameters.put("name", name.getText().toString());
+                    parameters.put("email", email.getText().toString());
+                    parameters.put("mobile", countryCodePicker.getFullNumberWithPlus());
+                    RequestResponseManager.editProfile(parameters, Const.Edit, new RequestResponseManager.OnResponseListener() {
+                        @Override
+                        public void onResponse(Object response) {
+                            BaseRs baseRs = (BaseRs) response;
+                            if (baseRs.getStatus().equals("success")) {
+                                Toast.makeText(ProfileActivity.this, "Profile Updated", Toast.LENGTH_SHORT).show();
+                                PrefManager prefManager = new PrefManager(ProfileActivity.this);
+                                prefManager.setString("customerEmail", ((BaseRs) response).getUserModel().getEmail());
+                                prefManager.setString("customerName", ((BaseRs) response).getUserModel().getName());
+                                prefManager.setString("customerMobileNumber", ((BaseRs) response).getUserModel().getMobile());
+                                prefManager.setInteger("customerId", ((BaseRs) response).getUserModel().getId());
+                                prefManager.setLoggedIn(true);
+                                Intent intent = new Intent(ProfileActivity.this, MainActivity.class);
+                                startActivity(intent);
+                            } else {
+                                Toast.makeText(ProfileActivity.this, "Error Occurred", Toast.LENGTH_SHORT).show();
+                            }
+
+                        }
+                    });
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }

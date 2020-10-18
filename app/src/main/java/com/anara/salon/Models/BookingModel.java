@@ -6,7 +6,7 @@ public class BookingModel {
 
     Integer id;
     String book_date;
-    String saloon_name;
+    String salon_name;
     String from_time;
     String to_time;
     String total_price;
@@ -39,12 +39,12 @@ public class BookingModel {
         this.book_date = book_date;
     }
 
-    public String getSaloon_name() {
-        return saloon_name;
+    public String getSalon_name() {
+        return salon_name;
     }
 
-    public void setSaloon_name(String saloon_name) {
-        this.saloon_name = saloon_name;
+    public void setSalon_name(String salon_name) {
+        this.salon_name = salon_name;
     }
 
     public String getFrom_time() {

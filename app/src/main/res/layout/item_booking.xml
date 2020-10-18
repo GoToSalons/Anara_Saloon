@@ -56,7 +56,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_toEndOf="@id/view"
-        android:layout_toStartOf="@+id/rl3">
+        android:layout_toStartOf="@+id/rl3"
+        android:layout_centerInParent="true">
 
         <TextView
             android:id="@+id/service_name"
@@ -64,8 +65,7 @@
             android:layout_height="wrap_content"
             android:text="Hair Cut"
             android:textColor="@color/colorBlack"
-            android:textSize="22sp"
-            android:gravity="center"/>
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/salon_name"
@@ -73,8 +73,7 @@
             android:layout_height="wrap_content"
             android:text="Enrich Salon"
             android:textColor="@color/colorBlack"
-            android:layout_below="@+id/service_name"
-            android:gravity="center"/>
+            android:layout_below="@+id/service_name"/>
 
     </RelativeLayout>
 
@@ -82,23 +81,18 @@
         android:id="@+id/rl3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true">
+        android:layout_alignParentEnd="true"
+        android:gravity="center"
+       android:layout_centerInParent="true">
 
-    <TextView
-        android:id="@+id/completed"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="upcoming"
-        android:textColor="@color/colorPrimary"
-        android:layout_margin="8dp"/>
 
     <RelativeLayout
         android:id="@+id/next"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/completed"
         android:background="@drawable/button_bg"
         android:layout_margin="8dp"
+        android:layout_centerInParent="true"
         >
 
         <TextView

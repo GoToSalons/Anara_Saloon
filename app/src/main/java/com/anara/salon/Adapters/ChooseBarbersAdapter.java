@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -20,7 +21,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 
 import java.util.ArrayList;
-
+//icon change tommorow
 public class ChooseBarbersAdapter extends RecyclerView.Adapter<ChooseBarbersAdapter.MyViewHolder> {
 
     ArrayList<BarberModel> barberModels;
@@ -60,10 +61,10 @@ public class ChooseBarbersAdapter extends RecyclerView.Adapter<ChooseBarbersAdap
 
             selectedPosition = holder.getAdapterPosition();
             notifyDataSetChanged();
-            if (!selectTimeBarber.date.equals("")){
+            if (selectTimeBarber!=null && !selectTimeBarber.date.equals("")){
                 selectTimeBarber.getTimeSlots();
             }else {
-                selectTimeBarber.getTimeSlots();
+                Toast.makeText(selectTimeBarber, "Select The Date", Toast.LENGTH_SHORT).show();
             }
 
 

@@ -215,7 +215,7 @@ public class RequestResponseManager {
             call.enqueue(new Callback<String>() {
                 @Override
                 public void onResponse(@NotNull Call<String> call, @NotNull Response<String> response) {
-                    Log.e("tag", " = =  = call response Bookings = = = " + response);
+                    Log.e("tag", " = =  = call response Bookings = = = " + response.body());
                     Object object = invokeParser(response.body(), requestCode);
                     onResponseListener.onResponse(object);
                 }
@@ -264,6 +264,30 @@ public class RequestResponseManager {
                 public void onResponse(@NotNull Call<String> call, @NotNull Response<String> response) {
                     Log.e("tag", " = =  = call response Ratings = = = " + response.body());
                     Object object = invokeParser(response.body(), requestCode);
+                    onResponseListener.onResponse(response.body());
+                }
+
+                @Override
+                public void onFailure(@NotNull Call<String> call, @NotNull Throwable t) {
+                    Log.e("tag", " = =  = call error order = = = " + t.getMessage());
+                    onResponseListener.onResponse(null);
+                }
+            });
+        } catch (Exception e) {
+            Log.e("============", "=========" + e.getMessage());
+        }
+    }
+
+    public static void editProfile(JSONObject parameters, int requestCode, OnResponseListener onResponseListener){
+        try {
+            ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
+
+            Call<String> call = apiInterface.EditProfile(parameters.toString());
+            call.enqueue(new Callback<String>() {
+                @Override
+                public void onResponse(@NotNull Call<String> call, @NotNull Response<String> response) {
+                    Log.e("tag", " = =  = call response edit = = = " + response.body());
+                    Object object = invokeParser(response.body(), requestCode);
                     onResponseListener.onResponse(object);
                 }
 
@@ -300,6 +324,8 @@ public class RequestResponseManager {
         } else if (requestType == Const.Get_Filters){
             return Parser.getHomePageResponse(response);
         }else if (requestType == Const.Cancel){
+            return Parser.getHomePageResponse(response);
+        }else if (requestType == Const.Edit){
             return Parser.getHomePageResponse(response);
         }
         return null;

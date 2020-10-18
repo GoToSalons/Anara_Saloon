@@ -1,10 +1,12 @@
 package com.anara.salon.Adapters;
 
 import android.os.Build;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -20,7 +22,11 @@ import com.anara.salon.R;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.MyViewHolder> {
 
@@ -42,7 +48,7 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.MyViewHo
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         BookingModel bookingModel = bookingModels.get(holder.getAdapterPosition());
-        holder.service.setText(bookingModel.getSaloon_name());
+        holder.service.setText(bookingModel.getSalon_name());
         holder.date.setText(bookingModel.getBook_date());
         holder.time.setText(bookingModel.getFrom_time());
         StringBuilder s= new StringBuilder();
@@ -54,7 +60,7 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.MyViewHo
             if (bookingModel.getStatus().equals("Completed")){
                 RateDialog rateDialog = new RateDialog(activity,bookingModel.getBarber_id());
                 rateDialog.show(activity.getSupportFragmentManager(),"rate");
-            }else {
+            }else if(bookingModel.getStatus().equals("Upcoming")){
                 JSONObject jsonObject = new JSONObject();
                 try {
                     jsonObject.put("booking_id",bookingModel.getId());
@@ -62,15 +68,25 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.MyViewHo
                     e.printStackTrace();
                 }
                 RequestResponseManager.CancelBooking(jsonObject, Const.Cancel, response -> {
-                    bookingModels.remove(holder.getAdapterPosition());
+                    JSONObject jsonObject1 = null;
+                    try {
+                        jsonObject1 = new JSONObject(response.toString());
+                        if (jsonObject1.getString("status").equals("error")){
+                            Toast.makeText(activity, ""+jsonObject1.getString("message"), Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
                     notifyDataSetChanged();
                 });
             }
         });
-        holder.completed.setText(bookingModel.getStatus());
         if (bookingModel.getStatus().equals("Completed")){
             holder.RateCancel.setText("Rate");
-        }else {
+        }else if (bookingModel.getStatus().equals("Cancelled")){
+            holder.RateCancel.setText("Cancelled");
+        }else if (bookingModel.getStatus().equals("Upcoming")){
             holder.RateCancel.setText("Cancel");
         }
 
@@ -82,14 +98,13 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.MyViewHo
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView date,time,service,name,completed,RateCancel;
+        TextView date,time,service,name,RateCancel;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             date = itemView.findViewById(R.id.date);
             time = itemView.findViewById(R.id.time);
             service = itemView.findViewById(R.id.service_name);
             name = itemView.findViewById(R.id.salon_name);
-            completed = itemView.findViewById(R.id.completed);
             RateCancel = itemView.findViewById(R.id.t1);
         }
     }

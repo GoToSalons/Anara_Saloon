@@ -45,7 +45,7 @@ public class SelectTimeBarber extends AppCompatActivity implements DatePickerLis
     public int barberId = -1;
     int salonId;
     ArrayList<SalonServices> salonServices;
-    public String date;
+    public String date="";
     RecyclerView timeRecyclerView;
     public String startTime = "", endTime = "";
     PrefManager prefManager;
@@ -103,7 +103,8 @@ public class SelectTimeBarber extends AppCompatActivity implements DatePickerLis
 
         findViewById(R.id.next).setOnClickListener(view -> {
             if (!startTime.equals("") || !endTime.equals("")) {
-                startPayment();
+//                startPayment();
+                orderSuccess();
             } else {
                 Toast.makeText(this, "Select Time Slot", Toast.LENGTH_SHORT).show();
             }

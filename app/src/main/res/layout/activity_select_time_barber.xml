@@ -31,26 +31,7 @@
 
     </RelativeLayout>
 
-    <TextView
-        android:id="@+id/tv3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Select Date"
-        android:textColor="@color/colorBlack"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:layout_marginStart="18dp"
-        android:layout_below="@id/rl1"
-        android:layout_marginTop="10dp"/>
 
-    <com.github.jhonnyx2012.horizontalpicker.HorizontalPicker
-        android:id="@+id/datePicker"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tv3"
-        android:layout_marginTop="10dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginEnd="4dp"/>
 
     <TextView
         android:id="@+id/tv1"
@@ -61,7 +42,7 @@
         android:textSize="18sp"
         android:textStyle="bold"
         android:layout_marginStart="18dp"
-        android:layout_below="@id/datePicker"
+        android:layout_below="@id/rl1"
         android:layout_marginTop="10dp"/>
 
     <androidx.recyclerview.widget.RecyclerView
@@ -74,6 +55,27 @@
         android:layout_marginBottom="10dp"/>
 
     <TextView
+        android:id="@+id/tv3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select Date"
+        android:textColor="@color/colorBlack"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_marginStart="18dp"
+        android:layout_below="@id/barber_recycler"
+        android:layout_marginTop="10dp"/>
+
+    <com.github.jhonnyx2012.horizontalpicker.HorizontalPicker
+        android:id="@+id/datePicker"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv3"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"/>
+
+    <TextView
         android:id="@+id/tv2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -82,7 +84,7 @@
         android:textSize="18sp"
         android:textStyle="bold"
         android:layout_marginStart="18dp"
-        android:layout_below="@id/barber_recycler"
+        android:layout_below="@id/datePicker"
         android:layout_marginTop="10dp"/>
 
     <androidx.recyclerview.widget.RecyclerView

@@ -43,15 +43,14 @@ public class BookingAdapter2 extends RecyclerView.Adapter<BookingAdapter2.MyView
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         BookingModel bookingModel = bookingModels.get(holder.getAdapterPosition());
-        holder.service.setText(bookingModel.getSaloon_name());
+        holder.service.setText(bookingModel.getSalon_name());
         holder.date.setText(bookingModel.getBook_date());
         holder.time.setText(bookingModel.getFrom_time());
         StringBuilder s= new StringBuilder();
         for (int i=0;i<bookingModel.getBookingServices().size();i++){
-            s.append(" ").append(bookingModel.getBookingServices().get(i).getService_name());
+            s.append(" | ").append(bookingModel.getBookingServices().get(i).getService_name());
             holder.name.setText(s);
         }
-        holder.completed.setText(bookingModel.getStatus());
         holder.RateCancel.setOnClickListener(view -> {
             if (!bookingModel.getStatus().equals("Completed")){
                 JSONObject jsonObject = new JSONObject();
@@ -69,6 +68,11 @@ public class BookingAdapter2 extends RecyclerView.Adapter<BookingAdapter2.MyView
 
         if (bookingModel.getStatus().equals("Completed")){
             holder.itemView.setVisibility(View.GONE);
+//            bookingModels.remove(holder.getAdapterPosition());
+
+        }else if (bookingModel.getStatus().equals("Cancelled")){
+
+//            bookingModels.remove(holder.getAdapterPosition());
         }
 
     }
@@ -79,14 +83,13 @@ public class BookingAdapter2 extends RecyclerView.Adapter<BookingAdapter2.MyView
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView date,time,service,name,completed,RateCancel;
+        TextView date,time,service,name,RateCancel;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             date = itemView.findViewById(R.id.date);
             time = itemView.findViewById(R.id.time);
             service = itemView.findViewById(R.id.service_name);
             name = itemView.findViewById(R.id.salon_name);
-            completed = itemView.findViewById(R.id.completed);
             RateCancel = itemView.findViewById(R.id.t1);
         }
     }

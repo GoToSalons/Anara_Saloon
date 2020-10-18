@@ -16,4 +16,5 @@ public class Const {
     public static int getBookings = 9;
     public static int Rate =10;
     public static int Cancel =11;
+    public static int Edit =12;
 }

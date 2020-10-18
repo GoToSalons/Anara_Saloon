@@ -15,13 +15,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.anara.salon.Activities.BookingsActivity;
 import com.anara.salon.Activities.IntroActivity;
 import com.anara.salon.Activities.ListSalonActivity;
-import com.anara.salon.Adapters.BookingAdapter;
 import com.anara.salon.Adapters.BookingAdapter2;
 import com.anara.salon.ApiResponse.BaseRs;
 import com.anara.salon.Apis.Const;
 import com.anara.salon.Apis.RequestResponseManager;
 import com.anara.salon.Dialogs.MainScreenDialog;
 import com.anara.salon.Helpers.PrefManager;
+import com.anara.salon.Models.BookingModel;
 import com.bumptech.glide.Glide;
 
 import org.json.JSONException;
@@ -61,7 +61,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 BaseRs baseRs = (BaseRs) response;
                 if (baseRs.getBookings()!=null){
                     RecyclerView recyclerView = findViewById(R.id.upcoming_bookings);
-                    BookingAdapter2 bookingAdapter = new BookingAdapter2(MainActivity.this,baseRs.getBookings());
+                    ArrayList<BookingModel> bookingModels = new ArrayList<>();
+                    for (BookingModel model:baseRs.getBookings()){
+                        if (model.getStatus().equals("Upcoming")){
+                            bookingModels.add(model);
+                        }
+                    }
+                    BookingAdapter2 bookingAdapter = new BookingAdapter2(MainActivity.this,bookingModels);
                     recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
                     recyclerView.setAdapter(bookingAdapter);
                 }

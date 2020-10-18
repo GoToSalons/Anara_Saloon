@@ -95,6 +95,7 @@ public class ListSalonActivity extends AppCompatActivity implements View.OnClick
         }else if (view.getId()== R.id.filter){
             Intent intent = new Intent(ListSalonActivity.this,FilterActivity.class);
             intent.putExtra("service_id", serviceId);
+            intent.putExtra("service", intent.getStringExtra("service"));
             startActivity(intent);
         }else if(view.getId()==R.id.back_button){
             onBackPressed();
@@ -172,4 +173,9 @@ public class ListSalonActivity extends AppCompatActivity implements View.OnClick
         return results[0];
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
 }

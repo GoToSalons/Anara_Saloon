@@ -50,4 +50,8 @@ public interface ApiInterface {
     @Headers({"Content-type: application/json"})
     @POST("/admin/api/saloons/delete-booking")
     Call<String> CancelBooking(@Body String toString);
+
+    @Headers({"Content-type: application/json"})
+    @POST("/admin/api/customers/edit-profile")
+    Call<String> EditProfile(@Body String toString);
 }

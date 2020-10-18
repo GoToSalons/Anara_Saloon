@@ -63,6 +63,7 @@ public class FilterActivity extends AppCompatActivity {
                 intent.putExtra("Rating", new Gson().toJson(Rating));
                 intent.putExtra("priceRange", new Gson().toJson(priceRange));
                 intent.putExtra("serviceId",  getIntent().getStringExtra("service_id"));
+                intent.putExtra("service",  getIntent().getStringExtra("service"));
                 intent.putExtra("mode", 2);
                 startActivity(intent);
             }
@@ -73,11 +74,10 @@ public class FilterActivity extends AppCompatActivity {
                 Intent intent = new Intent(FilterActivity.this,ListSalonActivity.class);
                 intent.putExtra("mode", 1);
                 intent.putExtra("serviceId",  getIntent().getStringExtra("service_id"));
+                intent.putExtra("service",  getIntent().getStringExtra("service"));
                 budget.edit().clear().apply();
                 rating.edit().clear().apply();
                 validFors.edit().clear().apply();
-
-
                 startActivity(intent);
             }
         });
