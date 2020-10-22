@@ -13,6 +13,7 @@ public class BookingModel {
     ArrayList<BookingServices> services;
     String status;
     Integer barber_id;
+    String barber_name;
 
 
     public Integer getId() {
@@ -85,5 +86,13 @@ public class BookingModel {
 
     public void setBarber_id(Integer barber_id) {
         this.barber_id = barber_id;
+    }
+
+    public String getBarber_name() {
+        return barber_name;
+    }
+
+    public void setBarber_name(String barber_name) {
+        this.barber_name = barber_name;
     }
 }

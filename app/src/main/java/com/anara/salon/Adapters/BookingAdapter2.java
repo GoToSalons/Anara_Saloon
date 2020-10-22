@@ -5,15 +5,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.anara.salon.Activities.BookingsActivity;
 import com.anara.salon.Apis.Const;
 import com.anara.salon.Apis.RequestResponseManager;
-import com.anara.salon.Dialogs.RateDialog;
 import com.anara.salon.MainActivity;
 import com.anara.salon.Models.BookingModel;
 import com.anara.salon.R;
@@ -46,6 +45,7 @@ public class BookingAdapter2 extends RecyclerView.Adapter<BookingAdapter2.MyView
         holder.service.setText(bookingModel.getSalon_name());
         holder.date.setText(bookingModel.getBook_date());
         holder.time.setText(bookingModel.getFrom_time());
+        holder.barberName.setText(bookingModel.getBarber_name());
         StringBuilder s= new StringBuilder();
         for (int i=0;i<bookingModel.getBookingServices().size();i++){
             s.append(" | ").append(bookingModel.getBookingServices().get(i).getService_name());
@@ -60,20 +60,23 @@ public class BookingAdapter2 extends RecyclerView.Adapter<BookingAdapter2.MyView
                     e.printStackTrace();
                 }
                 RequestResponseManager.CancelBooking(jsonObject, Const.Cancel, response -> {
-                    bookingModels.remove(holder.getAdapterPosition());
+                    JSONObject jsonObject1 = null;
+                    try {
+                        jsonObject1 = new JSONObject(response.toString());
+                        if (jsonObject1.getString("status").equals("error")) {
+                            Toast.makeText(activity, "" + jsonObject1.getString("message"), Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(activity, "Refund will take 5-7 Days", Toast.LENGTH_SHORT).show();
+                            holder.RateCancel.setText("Cancelled");
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
                     notifyDataSetChanged();
                 });
             }
         });
-
-        if (bookingModel.getStatus().equals("Completed")){
-            holder.itemView.setVisibility(View.GONE);
-//            bookingModels.remove(holder.getAdapterPosition());
-
-        }else if (bookingModel.getStatus().equals("Cancelled")){
-
-//            bookingModels.remove(holder.getAdapterPosition());
-        }
 
     }
 
@@ -83,7 +86,8 @@ public class BookingAdapter2 extends RecyclerView.Adapter<BookingAdapter2.MyView
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView date,time,service,name,RateCancel;
+        TextView date, time, service, name, RateCancel, barberName;
+
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             date = itemView.findViewById(R.id.date);
@@ -91,6 +95,7 @@ public class BookingAdapter2 extends RecyclerView.Adapter<BookingAdapter2.MyView
             service = itemView.findViewById(R.id.service_name);
             name = itemView.findViewById(R.id.salon_name);
             RateCancel = itemView.findViewById(R.id.t1);
+            barberName = itemView.findViewById(R.id.barber_name);
         }
     }
 }

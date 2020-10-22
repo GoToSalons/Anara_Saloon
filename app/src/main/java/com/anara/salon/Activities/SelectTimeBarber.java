@@ -104,6 +104,7 @@ public class SelectTimeBarber extends AppCompatActivity implements DatePickerLis
         findViewById(R.id.next).setOnClickListener(view -> {
             if (!startTime.equals("") || !endTime.equals("")) {
 //                startPayment();
+
                 orderSuccess();
             } else {
                 Toast.makeText(this, "Select Time Slot", Toast.LENGTH_SHORT).show();

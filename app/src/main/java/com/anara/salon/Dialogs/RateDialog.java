@@ -60,15 +60,24 @@ public class RateDialog extends DialogFragment {
         RelativeLayout rate = contentView.findViewById(R.id.rate);
         RatingBar ratingBar = contentView.findViewById(R.id.rating_bar);
         PrefManager prefManager = new PrefManager(bookingsActivity);
+
+        RelativeLayout relativeLayout = contentView.findViewById(R.id.dismiss_l);
+        relativeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+            }
+        });
+
         rate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 JSONObject jsonObject = new JSONObject();
                 try {
-                    jsonObject.put("customer_id",prefManager.getInteger("customerId",-1));
-                    jsonObject.put("barber_id",barberId);
-                    jsonObject.put("rating",Math.round(ratingBar.getRating()));
+                    jsonObject.put("customer_id", prefManager.getInteger("customerId", -1));
+                    jsonObject.put("barber_id", barberId);
+                    jsonObject.put("rating", Math.round(ratingBar.getRating()));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

@@ -55,6 +55,7 @@ dependencies {
 
     implementation 'com.razorpay:checkout:1.5.16'
     implementation 'com.github.medyo:android-about-page:1.2.5'
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
 
 }
 apply plugin: 'com.google.gms.google-services'

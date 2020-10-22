@@ -73,7 +73,15 @@
             android:layout_height="wrap_content"
             android:text="Enrich Salon"
             android:textColor="@color/colorBlack"
-            android:layout_below="@+id/service_name"/>
+            android:layout_below="@+id/service_name" />
+
+        <TextView
+            android:id="@+id/barber_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/salon_name"
+            android:text="Enrich Salon"
+            android:textColor="@color/colorPrimary" />
 
     </RelativeLayout>
 

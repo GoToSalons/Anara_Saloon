@@ -3,7 +3,6 @@ package com.anara.salon.Activities;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 
@@ -16,7 +15,6 @@ import com.anara.salon.ApiResponse.BaseRs;
 import com.anara.salon.Apis.Const;
 import com.anara.salon.Apis.RequestResponseManager;
 import com.anara.salon.Models.MainItemModel;
-import com.anara.salon.Models.SubItemModel;
 import com.anara.salon.R;
 import com.google.gson.Gson;
 
@@ -25,7 +23,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class FilterActivity extends AppCompatActivity {
 
@@ -66,6 +63,7 @@ public class FilterActivity extends AppCompatActivity {
                 intent.putExtra("service",  getIntent().getStringExtra("service"));
                 intent.putExtra("mode", 2);
                 startActivity(intent);
+                finish();
             }
         });
         Reset.setOnClickListener(new View.OnClickListener() {
@@ -79,6 +77,7 @@ public class FilterActivity extends AppCompatActivity {
                 rating.edit().clear().apply();
                 validFors.edit().clear().apply();
                 startActivity(intent);
+                finish();
             }
         });
 

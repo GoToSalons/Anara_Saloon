@@ -1,7 +1,6 @@
 package com.anara.salon.Adapters;
 
 import android.os.Build;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,11 +21,7 @@ import com.anara.salon.R;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 
 public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.MyViewHolder> {
 
@@ -51,6 +46,7 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.MyViewHo
         holder.service.setText(bookingModel.getSalon_name());
         holder.date.setText(bookingModel.getBook_date());
         holder.time.setText(bookingModel.getFrom_time());
+        holder.barberName.setText(bookingModel.getBarber_name());
         StringBuilder s= new StringBuilder();
         for (int i=0;i<bookingModel.getBookingServices().size();i++){
             s.append(" ").append(bookingModel.getBookingServices().get(i).getService_name());
@@ -71,8 +67,11 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.MyViewHo
                     JSONObject jsonObject1 = null;
                     try {
                         jsonObject1 = new JSONObject(response.toString());
-                        if (jsonObject1.getString("status").equals("error")){
-                            Toast.makeText(activity, ""+jsonObject1.getString("message"), Toast.LENGTH_SHORT).show();
+                        if (jsonObject1.getString("status").equals("error")) {
+                            Toast.makeText(activity, "" + jsonObject1.getString("message"), Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(activity, "Refund will take 5-7 Days", Toast.LENGTH_SHORT).show();
+                            holder.RateCancel.setText("Cancelled");
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -98,7 +97,8 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.MyViewHo
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView date,time,service,name,RateCancel;
+        TextView date, time, service, name, RateCancel, barberName;
+
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             date = itemView.findViewById(R.id.date);
@@ -106,6 +106,7 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.MyViewHo
             service = itemView.findViewById(R.id.service_name);
             name = itemView.findViewById(R.id.salon_name);
             RateCancel = itemView.findViewById(R.id.t1);
+            barberName = itemView.findViewById(R.id.barber_name);
         }
     }
 }

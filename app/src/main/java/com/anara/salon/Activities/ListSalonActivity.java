@@ -95,6 +95,7 @@ public class ListSalonActivity extends AppCompatActivity implements View.OnClick
             intent.putExtra("service_id", serviceId);
             intent.putExtra("service", intent.getStringExtra("service"));
             startActivity(intent);
+            finish();
         }else if(view.getId()==R.id.back_button){
             onBackPressed();
         }
